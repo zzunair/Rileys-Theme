@@ -1,0 +1,531 @@
+/* ========================================
+   GLOBAL THEME VARIABLES & UTILITIES
+   ======================================== */
+
+/* CSS Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================
+   THEME GLOBAL VARIABLES
+   ======================================== */
+
+:root {
+  /* ========================================
+     PAGE LAYOUT & WIDTHS
+     ======================================== */
+  --page-width: {{ settings.page_width }};
+  --sidebar-width: 25rem;
+  --narrow-content-width: 36rem;
+  --normal-content-width: 42rem;
+  --wide-content-width: 46rem;
+  --narrow-page-width: 90rem;
+  --normal-page-width: 120rem;
+  --wide-page-width: 150rem;
+
+  /* ========================================
+     SECTION HEIGHTS
+     ======================================== */
+  --section-height-small: 15rem;
+  --section-height-medium: 25rem;
+  --section-height-large: 35rem;
+
+  @media screen and (min-width: 40em) {
+    --section-height-small: 40svh;
+    --section-height-medium: 55svh;
+    --section-height-large: 70svh;
+  }
+
+  @media screen and (min-width: 60em) {
+    --section-height-small: 50svh;
+    --section-height-medium: 65svh;
+    --section-height-large: 80svh;
+  }
+
+  /* ========================================
+     TYPOGRAPHY - FONT FAMILIES
+     ======================================== */
+  --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+  --font-body--style: {{ settings.type_body_font.style }};
+  --font-body--weight: {{ settings.type_body_font.weight }};
+  
+  --font-subheading--family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
+  --font-subheading--style: {{ settings.type_subheading_font.style }};
+  --font-subheading--weight: {{ settings.type_subheading_font.weight }};
+  
+  --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+  --font-heading--style: {{ settings.type_heading_font.style }};
+  --font-heading--weight: {{ settings.type_heading_font.weight }};
+  
+  --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+  --font-accent--style: {{ settings.type_accent_font.style }};
+  --font-accent--weight: {{ settings.type_accent_font.weight }};
+
+  /* ========================================
+     TYPOGRAPHY - FONT SIZES
+     ======================================== */
+  --font-size-paragraph: {{ settings.type_size_paragraph }}px;
+  --font-size-h1: {{ settings.type_size_h1 }}px;
+  --font-size-h2: {{ settings.type_size_h2 }}px;
+  --font-size-h3: {{ settings.type_size_h3 }}px;
+  --font-size-h4: {{ settings.type_size_h4 }}px;
+  --font-size-h5: {{ settings.type_size_h5 }}px;
+  --font-size-h6: {{ settings.type_size_h6 }}px;
+
+  /* ========================================
+     TYPOGRAPHY - LINE HEIGHTS
+     ======================================== */
+  --line-height-paragraph: {{ settings.type_line_height_paragraph }};
+  --line-height-h1: {{ settings.type_line_height_h1 }};
+  --line-height-h2: {{ settings.type_line_height_h2 }};
+  --line-height-h3: {{ settings.type_line_height_h3 }};
+  --line-height-h4: {{ settings.type_line_height_h4 }};
+  --line-height-h5: {{ settings.type_line_height_h5 }};
+  --line-height-h6: {{ settings.type_line_height_h6 }};
+
+  /* ========================================
+     TYPOGRAPHY - LETTER SPACING
+     ======================================== */
+  --letter-spacing-h1: {{ settings.type_letter_spacing_h1 }};
+  --letter-spacing-h2: {{ settings.type_letter_spacing_h2 }};
+  --letter-spacing-h3: {{ settings.type_letter_spacing_h3 }};
+  --letter-spacing-h4: {{ settings.type_letter_spacing_h4 }};
+  --letter-spacing-h5: {{ settings.type_letter_spacing_h5 }};
+  --letter-spacing-h6: {{ settings.type_letter_spacing_h6 }};
+
+  /* ========================================
+     TYPOGRAPHY - TEXT CASES
+     ======================================== */
+  --text-case-h1: {{ settings.type_case_h1 }};
+  --text-case-h2: {{ settings.type_case_h2 }};
+  --text-case-h3: {{ settings.type_case_h3 }};
+  --text-case-h4: {{ settings.type_case_h4 }};
+  --text-case-h5: {{ settings.type_case_h5 }};
+  --text-case-h6: {{ settings.type_case_h6 }};
+
+  /* ========================================
+     TYPOGRAPHY - FONT PRESETS
+     ======================================== */
+  --font-h1: {{ settings.type_font_h1 }};
+  --font-h2: {{ settings.type_font_h2 }};
+  --font-h3: {{ settings.type_font_h3 }};
+  --font-h4: {{ settings.type_font_h4 }};
+  --font-h5: {{ settings.type_font_h5 }};
+  --font-h6: {{ settings.type_font_h6 }};
+
+  /* ========================================
+     BUTTON SETTINGS
+     ======================================== */
+  /* Primary Button */
+  --primary-button-border-width: {{ settings.primary_button_border_width }}px;
+  --primary-button-border-radius: {{ settings.button_border_radius_primary }}px;
+  --primary-button-font: {{ settings.type_font_button_primary }};
+  --primary-button-font-weight: {{ settings.button_font_weight_primary }};
+  --primary-button-text-case: {{ settings.button_text_case_primary }};
+  --primary-button-background-color: {{ settings.primary_button_background_color }};
+  --primary-button-text-color: {{ settings.primary_button_text_color }};
+  --primary-button-border-color: {{ settings.primary_button_border_color }};
+  --primary-button-hover-background-color: {{ settings.primary_button_hover_background_color }};
+  --primary-button-hover-text-color: {{ settings.primary_button_hover_text_color }};
+  --primary-button-hover-border-color: {{ settings.primary_button_hover_border_color }};
+
+  /* Secondary Button */
+  --secondary-button-border-width: {{ settings.secondary_button_border_width }}px;
+  --secondary-button-border-radius: {{ settings.button_border_radius_secondary }}px;
+  --secondary-button-font: {{ settings.type_font_button_secondary }};
+  --secondary-button-font-weight: {{ settings.button_font_weight_secondary }};
+  --secondary-button-text-case: {{ settings.button_text_case_secondary }};
+  --secondary-button-background-color: {{ settings.secondary_button_background_color }};
+  --secondary-button-text-color: {{ settings.secondary_button_text_color }};
+  --secondary-button-border-color: {{ settings.secondary_button_border_color }};
+  --secondary-button-hover-background-color: {{ settings.secondary_button_hover_background_color }};
+  --secondary-button-hover-text-color: {{ settings.secondary_button_hover_text_color }};
+  --secondary-button-hover-border-color: {{ settings.secondary_button_hover_border_color }};
+
+  /* Pills */
+  --pills-border-radius: {{ settings.pills_border_radius }}px;
+
+  /* ========================================
+     CART SETTINGS
+     ======================================== */
+  --cart-type: {{ settings.cart_type }};
+  --cart-price-font: {{ settings.cart_price_font }};
+  --show-cart-note: {{ settings.show_cart_note }};
+  --show-add-discount-code: {{ settings.show_add_discount_code }};
+  --show-installments: {{ settings.show_installments }};
+  --show-accelerated-checkout: {{ settings.show_accelerated_checkout_buttons }};
+
+  /* ========================================
+     DRAWER SETTINGS
+     ======================================== */
+  --drawer-color-scheme: {{ settings.drawer_color_scheme }};
+  --drawer-border: {{ settings.drawer_border }};
+  --drawer-border-width: {{ settings.drawer_border_width }}px;
+  --drawer-border-opacity: {{ settings.drawer_border_opacity }}%;
+  --drawer-drop-shadow: {{ settings.drawer_drop_shadow }};
+
+  /* ========================================
+     ICON SETTINGS
+     ======================================== */
+  --icon-stroke: {{ settings.icon_stroke }};
+
+  /* ========================================
+     INPUT FIELD SETTINGS
+     ======================================== */
+  --input-border-width: {{ settings.input_border_width }}px;
+  --input-border-radius: {{ settings.inputs_border_radius }}px;
+  --input-type-preset: {{ settings.type_preset }};
+
+  /* ========================================
+     POPOVER & MODAL SETTINGS
+     ======================================== */
+  --popover-color-scheme: {{ settings.popover_color_scheme }};
+  --popover-border-radius: {{ settings.popover_border_radius }}px;
+  --popover-border: {{ settings.popover_border }};
+  --popover-border-width: {{ settings.popover_border_width }}px;
+  --popover-border-opacity: {{ settings.popover_border_opacity }}%;
+  --popover-drop-shadow: {{ settings.popover_drop_shadow }};
+
+  /* ========================================
+     PRICE DISPLAY SETTINGS
+     ======================================== */
+  --currency-code-product-pages: {{ settings.currency_code_enabled_product_pages }};
+  --currency-code-product-cards: {{ settings.currency_code_enabled_product_cards }};
+  --currency-code-cart-items: {{ settings.currency_code_enabled_cart_items }};
+  --currency-code-cart-total: {{ settings.currency_code_enabled_cart_total }};
+
+  /* ========================================
+     PRODUCT CARD SETTINGS
+     ======================================== */
+  --quick-add-enabled: {{ settings.quick_add }};
+  --mobile-quick-add: {{ settings.mobile_quick_add }};
+  --quick-add-color-scheme: {{ settings.quick_add_color_scheme }};
+  --show-second-image-hover: {{ settings.show_second_image_on_hover }};
+  --product-card-carousel: {{ settings.product_card_carousel }};
+
+  /* ========================================
+     SEARCH SETTINGS
+     ======================================== */
+  --empty-state-collection: {{ settings.empty_state_collection }};
+  --product-corner-radius: {{ settings.product_corner_radius }}px;
+  --card-corner-radius: {{ settings.card_corner_radius }}px;
+  --card-title-case: {{ settings.card_title_case }};
+
+  /* ========================================
+     VARIANT SWATCH SETTINGS
+     ======================================== */
+  --show-variant-image: {{ settings.show_variant_image }};
+  --variant-swatch-width: {{ settings.variant_swatch_width }}px;
+  --variant-swatch-height: {{ settings.variant_swatch_height }}px;
+  --variant-swatch-radius: {{ settings.variant_swatch_radius }}px;
+  --variant-swatch-border-style: {{ settings.variant_swatch_border_style }};
+  --variant-swatch-border-width: {{ settings.variant_swatch_border_width }}px;
+  --variant-swatch-border-opacity: {{ settings.variant_swatch_border_opacity }}%;
+
+  /* ========================================
+     VARIANT PICKER SETTINGS
+     ======================================== */
+  --variant-button-border-width: {{ settings.variant_button_border_width }}px;
+  --variant-button-radius: {{ settings.variant_button_radius }}px;
+  --variant-button-width: {{ settings.variant_button_width }};
+
+  /* ========================================
+     ANIMATION SETTINGS
+     ======================================== */
+  --page-transition-enabled: {{ settings.page_transition_enabled }};
+  --transition-to-main-product: {{ settings.transition_to_main_product }};
+  --add-to-cart-animation: {{ settings.add_to_cart_animation }};
+  --card-hover-effect: {{ settings.card_hover_effect }};
+
+  /* ========================================
+     BADGE SETTINGS
+     ======================================== */
+  --badge-position: {{ settings.badge_position }};
+  --badge-corner-radius: {{ settings.badge_corner_radius }}px;
+  --badge-sale-color-scheme: {{ settings.badge_sale_color_scheme }};
+  --badge-sold-out-color-scheme: {{ settings.badge_sold_out_color_scheme }};
+  --badge-text-transform: {{ settings.badge_text_transform }};
+
+  /* ========================================
+     CART THUMBNAIL SETTINGS
+     ======================================== */
+  --cart-thumbnail-border: {{ settings.cart_thumbnail_border }};
+  --cart-thumbnail-border-width: {{ settings.cart_thumbnail_border_width }}px;
+  --cart-thumbnail-border-opacity: {{ settings.cart_thumbnail_border_opacity }}%;
+  --cart-thumbnail-border-radius: {{ settings.cart_thumbnail_border_radius }}px;
+
+  /* ========================================
+     PRODUCT TITLE SETTINGS
+     ======================================== */
+  --product-title-case: {{ settings.product_title_case }};
+
+  /* ========================================
+     LOGO & FAVICON
+     ======================================== */
+  --logo: {{ settings.logo }};
+  --logo-inverse: {{ settings.logo_inverse }};
+  --favicon: {{ settings.favicon }};
+
+
+  /* ========================================
+     COLOR SETTINGS
+     ======================================== */
+  --global-main-color: {{ settings.main_color }};
+  --global-secondary-color: {{ settings.secondary_color }};  
+  --global-tertiary-color: {{ settings.tertiary_color }};
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Text Alignment */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Padding Top */
+.pt-5 { padding-top: 5px; }
+.pt-10 { padding-top: 10px; }
+.pt-15 { padding-top: 15px; }
+.pt-20 { padding-top: 20px; }
+.pt-25 { padding-top: 25px; }
+.pt-30 { padding-top: 30px; }
+.pt-35 { padding-top: 35px; }
+.pt-40 { padding-top: 40px; }
+.pt-45 { padding-top: 45px; }
+.pt-50 { padding-top: 50px; }
+.pt-55 { padding-top: 55px; }
+.pt-60 { padding-top: 60px; }
+
+/* Padding Bottom */
+.pb-5 { padding-bottom: 5px; }
+.pb-10 { padding-bottom: 10px; }
+.pb-15 { padding-bottom: 15px; }
+.pb-20 { padding-bottom: 20px; }
+.pb-25 { padding-bottom: 25px; }
+.pb-30 { padding-bottom: 30px; }
+.pb-35 { padding-bottom: 35px; }
+.pb-40 { padding-bottom: 40px; }
+.pb-45 { padding-bottom: 45px; }
+.pb-50 { padding-bottom: 50px; }
+.pb-55 { padding-bottom: 55px; }
+.pb-60 { padding-bottom: 60px; }
+
+/* padding-left */
+.pl-5 { padding-left: 5px; }
+.pl-10 { padding-left: 10px; }
+.pl-15 { padding-left: 15px; }
+.pl-20 { padding-left: 20px; }
+.pl-25 { padding-left: 25px; }
+.pl-30 { padding-left: 30px; }
+.pl-35 { padding-left: 35px; }
+.pl-40 { padding-left: 40px; }
+.pl-45 { padding-left: 45px; }
+.pl-50 { padding-left: 50px; }
+.pl-55 { padding-left: 55px; }
+.pl-60 { padding-left: 60px; }
+/* padding-right */
+.pr-5 { padding-right: 5px; }
+.pr-10 { padding-right: 10px; }
+.pr-15 { padding-right: 15px; }
+.pr-20 { padding-right: 20px; }
+.pr-25 { padding-right: 25px; }
+.pr-30 { padding-right: 30px; }
+.pr-35 { padding-right: 35px; }
+.pr-40 { padding-right: 40px; }
+.pr-45 { padding-right: 45px; }
+.pr-50 { padding-right: 50px; }
+.pr-55 { padding-right: 55px; }
+.pr-60 { padding-right: 60px; }
+
+/* Margin Top */
+.mt-5 { margin-top: 5px; }
+.mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
+.mt-20 { margin-top: 20px; }
+.mt-25 { margin-top: 25px; }
+.mt-30 { margin-top: 30px; }
+.mt-35 { margin-top: 35px; }
+.mt-40 { margin-top: 40px; }
+.mt-45 { margin-top: 45px; }
+.mt-50 { margin-top: 50px; }
+.mt-55 { margin-top: 55px; }
+.mt-60 { margin-top: 60px; }
+
+/* Margin Bottom */
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-15 { margin-bottom: 15px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-25 { margin-bottom: 25px; }
+.mb-30 { margin-bottom: 30px; }
+.mb-35 { margin-bottom: 35px; }
+.mb-40 { margin-bottom: 40px; }
+.mb-45 { margin-bottom: 45px; }
+.mb-50 { margin-bottom: 50px; }
+.mb-55 { margin-bottom: 55px; }
+.mb-60 { margin-bottom: 60px; }
+
+/* Margin Left */
+.ml-5 { margin-left: 5px; }
+.ml-10 { margin-left: 10px; }
+.ml-15 { margin-left: 15px; }
+.ml-20 { margin-left: 20px; }
+.ml-25 { margin-left: 25px; }
+.ml-30 { margin-left: 30px; }
+.ml-35 { margin-left: 35px; }
+.ml-40 { margin-left: 40px; }
+.ml-45 { margin-left: 45px; }
+.ml-50 { margin-left: 50px; }
+.ml-55 { margin-left: 55px; }
+.ml-60 { margin-left: 60px; }
+
+/* Margin Right */
+.mr-5 { margin-right: 5px; }
+.mr-10 { margin-right: 10px; }
+.mr-15 { margin-right: 15px; }
+.mr-20 { margin-right: 20px; }
+.mr-25 { margin-right: 25px; }
+.mr-30 { margin-right: 30px; }
+.mr-35 { margin-right: 35px; }
+.mr-40 { margin-right: 40px; }
+.mr-45 { margin-right: 45px; }
+.mr-50 { margin-right: 50px; }
+.mr-55 { margin-right: 55px; }
+.mr-60 { margin-right: 60px; }
+
+/* display */
+.d-none { display: none; }
+.d-block { display: block; }
+.d-inline { display: inline; }
+.d-inline-block { display: inline-block; }
+.d-flex { display: flex; }
+.d-inline-flex { display: inline-flex; }
+
+.for-desktop {
+  display: block !important;
+}
+.for-mobile {
+  display: none !important;
+}
+@media screen and (max-width: 768px) {
+  .for-desktop {
+    display: none !important;
+  }
+  .for-mobile {
+    display: block !important;
+  }
+}
+/* Button Classes */
+.btn-primary {
+  border-width: var(--primary-button-border-width);
+  border-radius: var(--primary-button-border-radius);
+  font-family: var(--font-{{ settings.type_font_button_primary }}--family);
+  font-weight: var(--primary-button-font-weight);
+  text-transform: var(--primary-button-text-case);
+  background-color: #E32626 !important;
+    color: white !important;
+  border-color: var(--primary-button-border-color);
+  &:hover {
+    background-color: black !important;
+    color: white !important;
+    border-color: var(--primary-button-hover-border-color);
+  }
+}
+
+.btn-secondary {
+  border-width: var(--secondary-button-border-width);
+  border-radius: var(--secondary-button-border-radius);
+  font-family: var(--font-{{ settings.type_font_button_secondary }}--family);
+  font-weight: var(--secondary-button-font-weight);
+  text-transform: var(--secondary-button-text-case);
+  background-color: var(--secondary-button-background-color);
+  color: var(--secondary-button-text-color);
+  border-color: var(--secondary-button-border-color);
+  &:hover {
+    background-color: var(--secondary-button-hover-background-color);
+    color: var(--secondary-button-hover-text-color);
+    border-color: var(--secondary-button-hover-border-color);
+  }
+}
+
+.btn-link {
+  text-decoration: underline;
+  color: var(--primary-button-text-color);
+  &:hover {
+    color: var(--primary-button-hover-text-color);
+  }
+}
+
+/* Typography Classes */
+.heading-1 {
+  font-size: var(--font-size-h1);
+  font-family: var(--font-{{ settings.type_font_h1 }}--family);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+  text-transform: var(--text-case-h1);
+}
+
+.heading-2 {
+  font-size: var(--font-size-h2);
+  font-family: var(--font-{{ settings.type_font_h2 }}--family);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
+  text-transform: var(--text-case-h2);
+}
+
+.heading-3 {
+  font-size: var(--font-size-h3);
+  font-family: var(--font-{{ settings.type_font_h3 }}--family);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+  text-transform: var(--text-case-h3);
+}
+
+.heading-4 {
+  font-size: var(--font-size-h4);
+  font-family: var(--font-{{ settings.type_font_h4 }}--family);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+  text-transform: var(--text-case-h4);
+}
+
+.heading-5 {
+  font-size: var(--font-size-h5);
+  font-family: var(--font-{{ settings.type_font_h5 }}--family);
+  line-height: var(--line-height-h5);
+  letter-spacing: var(--letter-spacing-h5);
+  text-transform: var(--text-case-h5);
+}
+
+.heading-6 {
+  font-size: var(--font-size-h6);
+  font-family: var(--font-{{ settings.type_font_h6 }}--family);
+  line-height: var(--line-height-h6);
+  letter-spacing: var(--letter-spacing-h6);
+  text-transform: var(--text-case-h6);
+}
+
+.body-text {
+  font-size: var(--font-size-paragraph);
+  font-family: var(--font-body--family);
+  line-height: var(--line-height-paragraph);
+}
+
+/* width */
+.narrow-width {
+  max-width: var(--narrow-page-width);
+  width: 100%;
+  margin: 0 auto;
+  /* padding: 0 20px; */
+}
+
+.full-width {
+  width: 100%;
+  margin: 0 auto;
+}
