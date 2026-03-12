@@ -1877,7 +1877,7 @@
       }
     ]
   },
-  {
+   {
     "name": "t:names.icons",
     "settings": [
       {
@@ -2282,6 +2282,52 @@
           }
         ],
         "default": "equal-width-buttons"
+      }
+    ]
+  },
+  {
+    "name": "TargetCRM Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "TargetCRM Settings"
+      },
+      {
+        "type": "text",
+        "id": "targetcrm_client_id",
+        "label": "TargetCRM Client ID",
+        "info": "Enter your TargetCRM Client ID"
+      }
+    ]
+  },
+  {
+    "name": "Global Data Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Global Data Settings"
+      },
+      {
+        "type": "text",
+        "id": "global_phone_number",
+        "label": "Phone Number",
+        "info": "Phone Number"
+      },
+      {
+        "type": "text",
+        "id": "global_address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "global_email",
+        "label": "Email",
+      },
+      {
+        "type": "text",
+        "id": "partstream_app_key",
+        "label": "PartStream App Key",
+        "info": "Enter your PartStream App Key"
       }
     ]
   }
