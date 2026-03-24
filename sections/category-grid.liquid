@@ -1,0 +1,399 @@
+{% style %}
+        .category-grid__wrapper {
+          display: grid;
+          gap: {{ section.settings.grid_gap }}px;
+          grid-template-columns: repeat({{ section.settings.blocks_per_row }}, 1fr);
+        }
+
+      @media screen and (min-width: 1024px) {
+        .category-grid__nav {
+          display: none;
+        }
+      }
+
+      .category-grid__wrapper {
+        scroll-padding-left: 20px;
+      }
+
+        .category-grid__item {
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          display: block;
+        }
+
+        .category-grid__image {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: {{ section.settings.image_fit }};
+        }
+
+        .category-grid__shadow {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 0;
+          z-index: 1;
+          pointer-events: none;
+          transition: height 0.4s ease;
+          background: linear-gradient(
+            to top,
+            {{ section.settings.shadow_color | default: 'rgba(0,0,0,0.25)' }},
+            transparent
+          );
+        }
+
+        .category-grid__text {
+          position: absolute;
+          bottom: 20px;
+          left: 20px;
+          z-index: 2;
+          color: {{ section.settings.heading_color }};
+        }
+
+        .category-grid__text h3 {
+          margin: 0;
+          font-size: clamp(16px, 2vw, 24px);
+          line-height: 1.2;
+        }
+
+        .category-grid__text p {
+          margin: 5px 0 0;
+          font-size: clamp(12px, 1.5vw, 16px);
+          line-height: 1.4;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.4s ease;
+          color: {{ section.settings.description_color }};
+        }
+
+        .category-grid__item:hover .category-grid__shadow {
+          height: 70%;
+        }
+
+        .category-grid__item:hover .category-grid__text h3 {
+          transform: translateY(-20px);
+        }
+
+        .category-grid__item:hover .category-grid__text p {
+          opacity: 1;
+          transform: translateY(-20px);
+        }
+
+    /* Mobile view */
+     @media screen and (max-width: 767px) {
+      {% if section.settings.mobile_layout == 'carousel' %}
+        /* Carousel mode */
+        .category-grid__wrapper {
+          display: flex;
+          overflow: hidden;
+          scroll-behavior: smooth;
+          gap: {{ section.settings.grid_gap }}px;
+        }
+
+        .category-grid__item {
+          flex: 0 0 100%;
+        }
+
+        .category-grid__nav {
+          position: absolute;
+          top: 60%;
+          left: 0;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          transform: translateY(-50%);
+          z-index: 5;
+          pointer-events: none;
+        }
+
+        .category-grid__arrow {
+      pointer-events: all;
+      background: {{ section.settings.arrow_bg_color | default: 'rgba(0,0,0,0.6)' }};
+      color: #fff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+  }
+
+
+      {% else %}
+        /* Grid mode */
+        .category-grid__wrapper {
+          display: block;
+        }
+
+        .category-grid__item {
+          width: 100%;
+          margin-bottom: {{ section.settings.grid_gap }}px;
+        }
+
+        .category-grid__nav {
+          display: none;
+        }
+      {% endif %}
+    }
+{% endstyle %}
+
+<section
+  class="category-grid color-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;"
+>
+  <div class="category-grid__nav">
+    <button class="category-grid__arrow category-grid__arrow--prev" aria-label="Previous">‹</button>
+    <button class="category-grid__arrow category-grid__arrow--next" aria-label="Next">›</button>
+  </div>
+
+  <div
+    class="category-grid__wrapper"
+    style="
+      {% if section.settings.section_width == 'page' %}
+        max-width: 1200px; margin: 0 auto;
+      {% else %}
+        width: 100%;
+      {% endif %}
+    "
+  >
+    {% comment %} Block Loop Code {% endcomment %}
+    {% for block in section.blocks %}
+      {% assign block_link = block.settings.link %}
+      {% assign link_target = block.settings.link_target | default: '_self' %}
+
+      {% if block_link != blank %}
+        <a href="{{ block_link }}" class="category-grid__item" target="{{ link_target }}">
+      {% else %}
+        <div class="category-grid__item">
+      {% endif %}
+
+      {% if block.settings.image != blank %}
+        <img
+          class="category-grid__image"
+          src="{{ block.settings.image | img_url: '600x600' }}"
+          alt="{{ block.settings.title | strip_html | escape }}"
+          width="600"
+          height="600"
+        >
+      {% endif %}
+      {% comment %} Displaying Shadow over the image  {% endcomment %}
+      <div class="category-grid__shadow"></div>
+
+      <div class="category-grid__text">
+        <h3>{{ block.settings.title | strip_html }}</h3>
+        <p>{{ block.settings.description | strip_html }}</p>
+      </div>
+
+      {% if block_link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% if section.settings.mobile_layout == 'carousel' %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.innerWidth > 767) return;
+
+      const section = document.querySelector('.category-grid');
+      const wrapper = section.querySelector('.category-grid__wrapper');
+      const prevBtn = section.querySelector('.category-grid__arrow--prev');
+      const nextBtn = section.querySelector('.category-grid__arrow--next');
+
+      const items = wrapper.querySelectorAll('.category-grid__item');
+      let currentIndex = 0;
+
+      function scrollToIndex(index) {
+        if (index < 0) index = 0;
+        if (index >= items.length) index = items.length - 1;
+
+        currentIndex = index;
+        wrapper.scrollTo({
+          left: items[index].offsetLeft,
+          behavior: 'smooth',
+        });
+      }
+
+      nextBtn.addEventListener('click', function () {
+        scrollToIndex(currentIndex + 1);
+      });
+
+      prevBtn.addEventListener('click', function () {
+        scrollToIndex(currentIndex - 1);
+      });
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Category Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "default": "page",
+      "options": [
+        { "value": "page", "label": "Page Width" },
+        { "value": "full", "label": "Full Width" }
+      ]
+    },
+
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "blocks_per_row",
+      "label": "Blocks per row (Desktop)",
+      "min": 1,
+      "max": 6,
+      "default": 4
+    },
+
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap between blocks",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Layout (Mobile)"
+    },
+
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout",
+      "default": "carousel",
+      "options": [
+        { "value": "carousel", "label": "Carousel (1 by 1 swipe)" },
+        { "value": "grid", "label": "Stacked Grid" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow background color (Mobile)",
+      "default": "rgba(0,0,0,0.6)",
+      "visible_if": "{{ section.settings.mobile_layout == 'carousel' }}"
+    },
+
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow overlay color",
+      "default": "rgba(0,0,0,0.25)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image"
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Category title",
+          "default": "<p>Category name</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Category description",
+          "default": "<p>Category description</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category link"
+        },
+        {
+          "type": "checkbox",
+          "id": "link_target",
+          "label": "Open link in in New Tab",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Grid",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
