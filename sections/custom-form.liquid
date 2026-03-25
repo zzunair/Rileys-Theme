@@ -1,0 +1,994 @@
+{% style %}
+      .custom-form-section {
+        width: 100%;
+        padding: 40px 20px;
+      }
+
+      .custom-form-wrapper {
+        max-width: {{ section.settings.max_width }}px;
+        margin: 0 auto;
+      }
+
+      .custom-form-field {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .custom-form-field label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .custom-form-field .required {
+        color: red;
+        margin-left: 4px;
+      }
+    .custom-form-field input:not([type="radio"]),
+    .custom-form-field select,
+    .custom-form-field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .custom-form-field input[type="radio"] {
+      width: auto;
+      padding: 0;
+      border: none;
+      margin: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+     .custom-form-field input:not([type="radio"]):focus,
+    .custom-form-field select:focus,
+    .custom-form-field textarea:focus {
+      outline: none;
+      border-color: #000;
+    }
+    .custom-form-radio-group {
+      display: flex;
+      flex-direction: column; 
+      gap: 12px; 
+      align-items: flex-start;
+    }
+
+    .custom-form-radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px; 
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .custom-form-radio-group input[type="radio"] {
+      flex-shrink: 0;
+    }
+
+
+      .custom-form-button-wrapper {
+        display: flex;
+        margin-top: 20px;
+      }
+
+      .custom-form-success {
+        margin-top: 20px;
+        padding: 12px;
+        background: #e6ffed;
+        border: 1px solid #b2f2c2;
+        color: #1a7f37;
+        border-radius: 4px;
+      }
+
+      .custom-form-error {
+        color: red;
+        font-size: 13px;
+        margin-top: 4px;
+        display: none;
+      }
+
+
+      .custom-form-heading-wrapper {
+        margin-bottom: 20px;
+      }
+
+      .custom-form-heading-line {
+        border: none;
+        height: 2px;
+        background-color: currentColor;
+        width: 100%;
+        margin-top: 3px;
+      }
+
+      .custom-form-main-heading {
+          margin-top: 44px;
+    margin-bottom: 54px;
+  }
+
+  .custom-form-main-heading h2 {
+    margin: 0;
+    padding: 0;
+  }
+      @media (max-width: 768px) {
+        .custom-form-section {
+          padding: 30px 15px;
+        }
+      }
+{% endstyle %}
+
+<section class="custom-form-section">
+  <div class="custom-form-wrapper">
+    {% if section.settings.form_heading != blank %}
+      <div class="custom-form-main-heading" style="text-align: {{ section.settings.form_heading_align }};">
+        <h2
+          style="
+            font-size: {{ section.settings.form_heading_size }}px;
+            color: {{ section.settings.form_heading_color }};
+          "
+        >
+          {{ section.settings.form_heading }}
+        </h2>
+      </div>
+    {% endif %}
+    {% form 'contact', id: 'CustomForm' %}
+      {% if form.posted_successfully? %}
+        <div class="custom-form-success">
+          {{ section.settings.success_message }}
+        </div>
+      {% endif %}
+
+      {% for block in section.blocks %}
+        <div class="custom-form-field">
+          {% case block.type %}
+            {% when 'heading' %}
+              <div class="custom-form-heading-wrapper">
+                <div
+                  class="custom-form-heading"
+                  style="
+                    color: {{ block.settings.heading_color }};
+                    text-align: {{ block.settings.heading_align }};
+                    font-size: {{ block.settings.heading_size }}px;
+                  "
+                >
+                  {{ block.settings.heading_text }}
+                </div>
+                <hr class="custom-form-heading-line" style="border-color: {{ block.settings.heading_color }};">
+              </div>
+
+            {% when 'text' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <input
+                type="text"
+                name="contact[{{ block.settings.label | handle }}]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+                style="height: {{ block.settings.field_height }}px;"
+              >
+              <div class="custom-form-error">This field is required.</div>
+
+            {% when 'email' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <input
+                type="email"
+                name="contact[email]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+              >
+              <div class="custom-form-error">Enter a valid email.</div>
+
+            {% when 'phone' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <input
+                type="tel"
+                name="contact[phone]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+              >
+              <div class="custom-form-error">Enter a valid phone number.</div>
+
+            {% when 'date' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <input
+                type="date"
+                name="contact[{{ block.settings.label | handle }}]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+              >
+              <div class="custom-form-error">Please select a date.</div>
+
+            {% when 'textarea' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <textarea
+                name="contact[{{ block.settings.label | handle }}]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+                style="min-height: {{ block.settings.field_height }}px;"
+              ></textarea>
+              <div class="custom-form-error">This field is required.</div>
+
+            {% when 'description_textarea' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <textarea
+                name="contact[{{ block.settings.label | handle }}]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+                style="min-height: {{ block.settings.field_height }}px;"
+              ></textarea>
+              <div class="custom-form-error">This field is required.</div>
+
+            {% when 'dropdown' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+
+              <select
+                name="contact[{{ block.settings.label | handle }}]"
+                {% if block.settings.required %}
+                  required
+                {% endif %}
+                data-dropdown-trigger="conditional-dd-{{ block.id }}"
+              >
+                <option value="">-- Select --</option>
+                {% assign dd_options = block.settings.options | split: '|' %}
+                {% for option in dd_options %}
+                  {% assign option = option | strip %}
+                  {% if option != blank %}
+                    <option value="{{ option }}">{{ option }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+
+              <div class="custom-form-error">Please select an option.</div>
+
+              {% assign triggers = 'trigger_1,trigger_2,trigger_3,trigger_4' | split: ',' %}
+              {% for t in triggers %}
+                {% assign trigger_val = block.settings[t] %}
+                {% if trigger_val != blank %}
+                  {% assign f1_key = t | append: '_field_1' %}  {% comment %} f1_key is Liquid variable that stores a string value. {% endcomment %}
+                  {% assign f2_key = t | append: '_field_2' %}
+                  {% assign f3_key = t | append: '_field_3' %}
+                  {% assign f1 = block.settings[f1_key] %}
+                  {% assign f2 = block.settings[f2_key] %}
+                  {% assign f3 = block.settings[f3_key] %}
+                  <div
+                    id="conditional-dd-{{ block.id }}-{{ t }}"
+                    class="dd-conditional-group"
+                    data-dd-parent="conditional-dd-{{ block.id }}"
+                    data-dd-value="{{ trigger_val | strip | downcase }}"
+                    style="display: none; margin-top: 16px;"
+                  >
+                    {% if f1 != blank %}
+                      <div class="custom-form-field">
+                        <label>
+                          {{- f1 }}
+                          <span class="required">*</span></label
+                        >
+                        <input
+                          type="text"
+                          name="contact[{{ f1 | handle }}]"
+                          data-dd-conditional
+                        >
+                        <div class="custom-form-error">This field is required.</div>
+                      </div>
+                    {% endif %}
+                    {% if f2 != blank %}
+                      <div class="custom-form-field">
+                        <label>
+                          {{- f2 }}
+                          <span class="required">*</span></label
+                        >
+                        <input
+                          type="text"
+                          name="contact[{{ f2 | handle }}]"
+                          data-dd-conditional
+                        >
+                        <div class="custom-form-error">This field is required.</div>
+                      </div>
+                    {% endif %}
+                    {% if f3 != blank %}
+                      <div class="custom-form-field">
+                        <label>{{ f3 }}</label>
+                        <input
+                          type="text"
+                          name="contact[{{ f3 | handle }}]"
+                        >
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <div class="custom-form-error">Please select an option.</div>
+
+            {% when 'reference_data' %}
+              {% comment %} Reference Full Name {% endcomment %}
+              {% if block.settings.ref_fullname_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_fullname_label }}
+                    {% if block.settings.ref_fullname_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_fullname_label | handle }}]"
+                    {% if block.settings.ref_fullname_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Relationship {% endcomment %}
+              {% if block.settings.ref_relationship_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_relationship_label }}
+                    {% if block.settings.ref_relationship_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_relationship_label | handle }}]"
+                    {% if block.settings.ref_relationship_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Phone {% endcomment %}
+              {% if block.settings.ref_phone_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_phone_label }}
+                    {% if block.settings.ref_phone_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="tel"
+                    name="contact[{{ block.settings.ref_phone_label | handle }}]"
+                    {% if block.settings.ref_phone_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Address {% endcomment %}
+              {% if block.settings.ref_address_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_address_label }}
+                    {% if block.settings.ref_address_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_address_label | handle }}]"
+                    {% if block.settings.ref_address_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Address 2 {% endcomment %}
+              {% if block.settings.ref_address2_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_address2_label }}
+                    {% if block.settings.ref_address2_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_address2_label | handle }}]"
+                    {% if block.settings.ref_address2_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference City {% endcomment %}
+              {% if block.settings.ref_city_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_city_label }}
+                    {% if block.settings.ref_city_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_city_label | handle }}]"
+                    {% if block.settings.ref_city_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference State/Region {% endcomment %}
+              {% if block.settings.ref_state_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_state_label }}
+                    {% if block.settings.ref_state_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_state_label | handle }}]"
+                    {% if block.settings.ref_state_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Postal Code {% endcomment %}
+              {% if block.settings.ref_postal_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_postal_label }}
+                    {% if block.settings.ref_postal_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_postal_label | handle }}]"
+                    {% if block.settings.ref_postal_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+
+              {% comment %} Reference Country {% endcomment %}
+              {% if block.settings.ref_country_label != blank %}
+                <div class="custom-form-field">
+                  <label>
+                    {{ block.settings.ref_country_label }}
+                    {% if block.settings.ref_country_required -%}
+                      <span class="required">*</span>
+                    {%- endif %}
+                  </label>
+                  <input
+                    type="text"
+                    name="contact[{{ block.settings.ref_country_label | handle }}]"
+                    {% if block.settings.ref_country_required %}
+                      required
+                    {% endif %}
+                  >
+                  <div class="custom-form-error">This field is required.</div>
+                </div>
+              {% endif %}
+            {% when 'radio' %}
+              <label>
+                {{ block.settings.label }}
+                {% if block.settings.required %}
+                  <span class="required">*</span>
+                {% endif %}
+              </label>
+              <div class="custom-form-radio-group">
+                {% assign options = block.settings.options | split: '|' %}
+                {% for option in options %}
+                  {% assign option = option | strip %}
+                  {% if option != blank %}
+                    <label>
+                      <input
+                        type="radio"
+                        name="contact[{{ block.settings.label | handle }}]"
+                        value="{{ option }}"
+                        {% if block.settings.required %}
+                          required
+                        {% endif %}
+                        data-trigger="{{ block.settings.trigger_value | strip }}"
+                        data-target="conditional-{{ block.id }}"
+                      >
+                      {{ option }}
+                    </label>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="custom-form-error">Please select an option.</div>
+
+              {% if block.settings.trigger_value != blank %}
+                <div id="conditional-{{ block.id }}" style="display:none; margin-top: 16px;">
+                  {% if block.settings.conditional_field_1 != blank %}
+                    <div class="custom-form-field">
+                      <label>
+                        {{- block.settings.conditional_field_1 }}
+                        <span class="required">*</span></label
+                      >
+                      <input
+                        type="text"
+                        name="contact[{{ block.settings.conditional_field_1 | handle }}]"
+                        data-conditional
+                      >
+                      <div class="custom-form-error">This field is required.</div>
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.conditional_field_2 != blank %}
+                    <div class="custom-form-field">
+                      <label>
+                        {{- block.settings.conditional_field_2 }}
+                        <span class="required">*</span></label
+                      >
+                      <input
+                        type="text"
+                        name="contact[{{ block.settings.conditional_field_2 | handle }}]"
+                        data-conditional
+                      >
+                      <div class="custom-form-error">This field is required.</div>
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.conditional_field_3 != blank %}
+                    <div class="custom-form-field">
+                      <label>{{ block.settings.conditional_field_3 }}</label>
+                      <input
+                        type="text"
+                        name="contact[{{ block.settings.conditional_field_3 | handle }}]"
+                      >
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.conditional_field_4 != blank %}
+                    <div class="custom-form-field">
+                      <label>{{ block.settings.conditional_field_4 }}</label>
+                      <input
+                        type="text"
+                        name="contact[{{ block.settings.conditional_field_4 | handle }}]"
+                      >
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              <div class="custom-form-error">Please select an option.</div>
+          {% endcase %}
+        </div>
+      {% endfor %}
+
+      <div
+        class="custom-form-button-wrapper"
+        style="justify-content: {{ section.settings.button_alignment }};"
+      >
+        <button
+          type="submit"
+          style="
+            background: {{ section.settings.button_bg }};
+            color: {{ section.settings.button_text_color }};
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+          "
+          class="custom-submit-btn"
+        >
+          {{ section.settings.button_text }}
+        </button>
+      </div>
+    {% endform %}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('CustomForm');
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        let valid = true;
+
+        form.querySelectorAll('.custom-form-field').forEach((field) => {
+          const input = field.querySelector('input, textarea, select');
+          const error = field.querySelector('.custom-form-error');
+
+          if (input && input.hasAttribute('required') && !input.value) {
+            valid = false;
+            if (error) error.style.display = 'block';
+          } else if (error) {
+            error.style.display = 'none';
+          }
+        });
+
+        if (!valid) e.preventDefault();
+      });
+
+      const btn = document.querySelector('.custom-submit-btn');
+      if (btn) {
+        const defaultBg = '{{ section.settings.button_bg }}';
+        const hoverBg = '{{ section.settings.button_hover_bg }}';
+
+        btn.addEventListener('mouseenter', function () {
+          this.style.background = hoverBg;
+        });
+        btn.addEventListener('mouseleave', function () {
+          this.style.background = defaultBg;
+        });
+      }
+    }
+  });
+
+  // Conditional radio field logic
+  document.querySelectorAll('input[type="radio"][data-trigger]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      const triggerValue = this.getAttribute('data-trigger').trim().toLowerCase();
+      const targetId = this.getAttribute('data-target');
+      const targetDiv = document.getElementById(targetId);
+
+      if (!targetDiv) return;
+
+      if (this.value.trim().toLowerCase() === triggerValue) {
+        targetDiv.style.display = 'block';
+        targetDiv.querySelectorAll('input[data-conditional]').forEach(function (input) {
+          input.setAttribute('required', '');
+        });
+      } else {
+        targetDiv.style.display = 'none';
+        targetDiv.querySelectorAll('input[data-conditional]').forEach(function (input) {
+          input.removeAttribute('required');
+          input.value = '';
+        });
+      }
+    });
+  });
+
+  // Dropdown conditional logic
+  document.querySelectorAll('select[data-dropdown-trigger]').forEach(function (select) {
+    select.addEventListener('change', function () {
+      const selectedVal = this.value.trim().toLowerCase();
+      const parentKey = this.getAttribute('data-dropdown-trigger');
+
+      // Hide all groups for this dropdown and clear required
+      document.querySelectorAll('.dd-conditional-group[data-dd-parent="' + parentKey + '"]').forEach(function (group) {
+        group.style.display = 'none';
+        group.querySelectorAll('input[data-dd-conditional]').forEach(function (input) {
+          input.removeAttribute('required');
+          input.value = '';
+        });
+      });
+
+      // Show matching group and add required
+      document
+        .querySelectorAll(
+          '.dd-conditional-group[data-dd-parent="' + parentKey + '"][data-dd-value="' + selectedVal + '"]'
+        )
+        .forEach(function (group) {
+          group.style.display = 'block';
+          group.querySelectorAll('input[data-dd-conditional]').forEach(function (input) {
+            input.setAttribute('required', '');
+          });
+        });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Form Builder",
+  "settings": [
+    { "type": "header", "content": "Form Heading" },
+    { "type": "text", "id": "form_heading", "label": "Heading Text" },
+    { "type": "color", "id": "form_heading_color", "label": "Heading Color", "default": "#000000" },
+    {
+      "type": "range",
+      "id": "form_heading_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "default": 28,
+      "label": "Heading Size (px)"
+    },
+    {
+      "type": "select",
+      "id": "form_heading_align",
+      "label": "Heading Alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "range", "id": "max_width", "min": 600, "max": 1400, "step": 50, "default": 800, "label": "Max Width" },
+    { "type": "text", "id": "button_text", "default": "Submit", "label": "Button Text" },
+    { "type": "color", "id": "button_bg", "label": "Button Background", "default": "#000000" },
+    { "type": "color", "id": "button_hover_bg", "label": "Button Hover Background", "default": "#333333" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Alignment",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ]
+    },
+    { "type": "text", "id": "success_message", "default": "Thank you for your submission!", "label": "Success Message" }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "text", "id": "heading_text", "label": "Heading Text" },
+        { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#000000" },
+        {
+          "type": "range",
+          "id": "heading_size",
+          "min": 16,
+          "max": 48,
+          "step": 2,
+          "default": 24,
+          "label": "Heading Size"
+        },
+        {
+          "type": "select",
+          "id": "heading_align",
+          "label": "Alignment",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "description_textarea",
+      "name": "Description Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label", "default": "Description" },
+        { "type": "checkbox", "id": "required", "label": "Required" },
+        {
+          "type": "range",
+          "id": "field_height",
+          "min": 60,
+          "max": 500,
+          "step": 10,
+          "default": 120,
+          "label": "Textarea Height (px)"
+        }
+      ]
+    },
+
+    {
+      "type": "text",
+      "name": "Text Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label" },
+        { "type": "checkbox", "id": "required", "label": "Required" }
+      ]
+    },
+    {
+      "type": "email",
+      "name": "Email Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label", "default": "Email" },
+        { "type": "checkbox", "id": "required", "label": "Required", "default": true }
+      ]
+    },
+    {
+      "type": "phone",
+      "name": "Phone Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label", "default": "Phone" },
+        { "type": "checkbox", "id": "required", "label": "Required" }
+      ]
+    },
+    {
+      "type": "date",
+      "name": "Date Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label" },
+        { "type": "checkbox", "id": "required", "label": "Required" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "Textarea Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label" },
+        { "type": "checkbox", "id": "required", "label": "Required" },
+        {
+          "type": "range",
+          "id": "field_height",
+          "min": 60,
+          "max": 300,
+          "step": 10,
+          "default": 120,
+          "label": "Textarea Height"
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label" },
+        {
+          "type": "textarea",
+          "id": "options",
+          "label": "Options (use | to separate e.g. Option1 | Option2)"
+        },
+        { "type": "checkbox", "id": "required", "label": "Required" },
+        { "type": "header", "content": "Trigger Option 1" },
+        { "type": "text", "id": "trigger_1", "label": "Trigger Value 1" },
+        { "type": "text", "id": "trigger_1_field_1", "label": "Field 1 Label (required)" },
+        { "type": "text", "id": "trigger_1_field_2", "label": "Field 2 Label (required)" },
+        { "type": "text", "id": "trigger_1_field_3", "label": "Field 3 Label (optional)" },
+        { "type": "header", "content": "Trigger Option 2" },
+        { "type": "text", "id": "trigger_2", "label": "Trigger Value 2" },
+        { "type": "text", "id": "trigger_2_field_1", "label": "Field 1 Label (required)" },
+        { "type": "text", "id": "trigger_2_field_2", "label": "Field 2 Label (required)" },
+        { "type": "text", "id": "trigger_2_field_3", "label": "Field 3 Label (optional)" },
+        { "type": "header", "content": "Trigger Option 3" },
+        { "type": "text", "id": "trigger_3", "label": "Trigger Value 3" },
+        { "type": "text", "id": "trigger_3_field_1", "label": "Field 1 Label (required)" },
+        { "type": "text", "id": "trigger_3_field_2", "label": "Field 2 Label (required)" },
+        { "type": "text", "id": "trigger_3_field_3", "label": "Field 3 Label (optional)" },
+        { "type": "header", "content": "Trigger Option 4" },
+        { "type": "text", "id": "trigger_4", "label": "Trigger Value 4" },
+        { "type": "text", "id": "trigger_4_field_1", "label": "Field 1 Label (required)" },
+        { "type": "text", "id": "trigger_4_field_2", "label": "Field 2 Label (required)" },
+        { "type": "text", "id": "trigger_4_field_3", "label": "Field 3 Label (optional)" }
+      ]
+    },
+
+    {
+      "type": "radio",
+      "name": "Radio Field",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Field Label" },
+        {
+          "type": "textarea",
+          "id": "options",
+          "label": "Options (enter each option on a new line)"
+        },
+        { "type": "checkbox", "id": "required", "label": "Required" },
+        {
+          "type": "header",
+          "content": "Conditional Fields"
+        },
+        {
+          "type": "text",
+          "id": "trigger_value",
+          "label": "Trigger Option (show fields when this option is selected)"
+        },
+        {
+          "type": "text",
+          "id": "conditional_field_1",
+          "label": "Conditional Field 1 Label"
+        },
+        {
+          "type": "text",
+          "id": "conditional_field_2",
+          "label": "Conditional Field 2 Label"
+        },
+        {
+          "type": "text",
+          "id": "conditional_field_3",
+          "label": "Conditional Field 3 Label (optional)"
+        },
+        {
+          "type": "text",
+          "id": "conditional_field_4",
+          "label": "Conditional Field 4 Label (optional)"
+        }
+      ]
+    },
+    {
+      "type": "reference_data",
+      "name": "Reference Data",
+      "settings": [
+        { "type": "header", "content": "Reference Full Name" },
+        { "type": "text", "id": "ref_fullname_label", "label": "Field Label", "default": "Reference Full Name" },
+        { "type": "checkbox", "id": "ref_fullname_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Relationship" },
+        { "type": "text", "id": "ref_relationship_label", "label": "Field Label", "default": "Reference Relationship" },
+        { "type": "checkbox", "id": "ref_relationship_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Phone" },
+        { "type": "text", "id": "ref_phone_label", "label": "Field Label", "default": "Reference Phone" },
+        { "type": "checkbox", "id": "ref_phone_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Address" },
+        { "type": "text", "id": "ref_address_label", "label": "Field Label", "default": "Reference Address" },
+        { "type": "checkbox", "id": "ref_address_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Address 2" },
+        { "type": "text", "id": "ref_address2_label", "label": "Field Label", "default": "Reference Address 2" },
+        { "type": "checkbox", "id": "ref_address2_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference City" },
+        { "type": "text", "id": "ref_city_label", "label": "Field Label", "default": "Reference City" },
+        { "type": "checkbox", "id": "ref_city_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference State/Region" },
+        { "type": "text", "id": "ref_state_label", "label": "Field Label", "default": "Reference State/Region" },
+        { "type": "checkbox", "id": "ref_state_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Postal Code" },
+        { "type": "text", "id": "ref_postal_label", "label": "Field Label", "default": "Reference Postal Code" },
+        { "type": "checkbox", "id": "ref_postal_required", "label": "Required" },
+
+        { "type": "header", "content": "Reference Country" },
+        { "type": "text", "id": "ref_country_label", "label": "Field Label", "default": "Reference Country" },
+        { "type": "checkbox", "id": "ref_country_required", "label": "Required" }
+      ]
+    }
+  ],
+  "max_blocks": 90,
+  "presets": [
+    {
+      "name": "Custom Form Builder"
+    }
+  ]
+}
+{% endschema %}
