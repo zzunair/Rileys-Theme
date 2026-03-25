@@ -9,9 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/logo_4.png",
-    "logo_height": 53,
-    "logo_height_mobile": 28,
+    "logo": "shopify://shop_images/logo_3_250x_3bc9b47c-0ec8-4cf1-9443-cafffe89b4bb.avif",
+    "favicon": "shopify://shop_images/fevi.png",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
     "type_heading_font": "inter_n7",
@@ -77,6 +76,8 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "logo_height": 53,
+    "logo_height_mobile": 28,
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
