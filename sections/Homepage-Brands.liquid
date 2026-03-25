@@ -141,9 +141,6 @@
   </div>
 </div>
 
-{%- comment -%} static CSS file, no Liquid there {%- endcomment -%}
-<link rel="stylesheet" href="{{ 'custom-brands.css' | asset_url }}">
-
 {%- comment -%} Swiper assets {%- endcomment -%}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
@@ -152,6 +149,18 @@
   DYNAMIC CSS (uses section.settings) – must stay inside the section file
 {%- endcomment -%}
 <style>
+  /* Dynamic container width */
+  .brands-home__container.narrow-width {
+    max-width: {{ section.settings.max_width | default: 1470 }}px;
+    margin: 0 auto;
+    padding-inline: 16px;
+  }
+
+  .brands-home__container.full-width {
+    width: 100%;
+    margin: 0;
+  }
+
   .brands-home__placeholder {
     width: 150px;
     height: 150px;
@@ -160,6 +169,7 @@
     align-items: center;
     justify-content: center;
   }
+
   .brands-home__placeholder-text {
     color: {{ section.settings.placeholder_text }};
     font-size: 12px;
@@ -171,14 +181,17 @@
     border-radius: 999px;
     background: {{ section.settings.nav_bg_color }};
   }
+
   .brands-home__nav::after {
     font-size: 16px;
     color: {{ section.settings.nav_icon_color }};
   }
+
   .brands-home__pagination .swiper-pagination-bullet {
     background: {{ section.settings.dots_color }};
     opacity: .25;
   }
+
   .brands-home__pagination .swiper-pagination-bullet-active {
     opacity: 1;
   }
@@ -403,6 +416,16 @@
         { "value": "full-width", "label": "Full Width" }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 800,
+      "max": 1500,
+      "step": 10,
+      "default": 1200,
+      "info": "Applies when section width is set to Page Width."
     },
     {
       "type": "select",
