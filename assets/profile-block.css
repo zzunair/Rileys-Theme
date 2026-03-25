@@ -1,0 +1,73 @@
+.placeholder-image {
+  position: relative;
+  aspect-ratio: var(--ratio);
+  overflow: hidden;
+}
+
+.profile-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: var(--horizontal-alignment, inline-start);
+  align-items: var(--horizontal-alignment, flex-start);
+}
+
+.profile-block__img-wrapper {
+  display: block;
+}
+
+.profile-block--height-fill .profile-block__image {
+  height: 100%;
+}
+
+.profile-block__image {
+  object-fit: cover;
+  aspect-ratio: var(--ratio);
+  width: 100%;
+}
+
+.profile-block__caption {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.profile-block__social-icons {
+  display: flex;
+  gap: var(--gap-sm);
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.social-icons__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--icon-size-lg);
+}
+
+.social-icons__icon {
+  display: none;
+  flex-shrink: 0;
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+}
+
+.social-icons__icon-wrapper:has(.social-icons__icon path) {
+  width: var(--icon-size-lg);
+}
+
+.social-icons__icon-wrapper:has(.social-icons__icon path) .social-icons__icon {
+  display: block;
+}
+
+.social-icons__icon-wrapper:has(.social-icons__icon path) .social-icons__icon-label {
+  display: none;
+}
+
+.shopify-design-mode .social-icons__icon-wrapper--disabled {
+  opacity: var(--disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.shopify-design-mode .social-icons__icon-wrapper--disabled a {
+  pointer-events: none;
+}
