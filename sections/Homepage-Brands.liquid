@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ 'custom-brands.css' | asset_url }}">
+
 {% liquid
   assign width = section.settings.width
   if width == 'page-width'
@@ -44,8 +46,8 @@
       background-size: cover;
       background-position: center;
     {% endif %}
-    padding-block-start: {{ section.settings.padding-block-start }}px;
-    padding-block-end: {{ section.settings.padding-block-end }}px;
+    padding-block-start: {{ section.settings['padding-block-start'] }}px;
+    padding-block-end: {{ section.settings['padding-block-end'] }}px;
   "
 >
   <div class="brands-home__container {{ width }}">
@@ -139,39 +141,42 @@
   </div>
 </div>
 
+{%- comment -%} static CSS file, no Liquid there {%- endcomment -%}
 <link rel="stylesheet" href="{{ 'custom-brands.css' | asset_url }}">
 
-{%- comment -%}
-  Swiper assets (self-contained).
-  If Horizon already includes Swiper globally, you can remove these two lines to avoid duplicates.
-{%- endcomment -%}
+{%- comment -%} Swiper assets {%- endcomment -%}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
+{%- comment -%}
+  DYNAMIC CSS (uses section.settings) – must stay inside the section file
+{%- endcomment -%}
 <style>
   .brands-home__placeholder {
     width: 150px;
     height: 150px;
-    background: #f0f0f0;
+    background: {{ section.settings.placeholder_bg }};
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .brands-home__placeholder-text { color: #999; font-size: 12px; }
+  .brands-home__placeholder-text {
+    color: {{ section.settings.placeholder_text }};
+    font-size: 12px;
+  }
 
-  /* Make arrows/dots visible */
   .brands-home__nav {
     width: 40px;
     height: 40px;
     border-radius: 999px;
-    background: rgba(0, 0, 0, 0.55);
+    background: {{ section.settings.nav_bg_color }};
   }
   .brands-home__nav::after {
     font-size: 16px;
-    color: #fff;
+    color: {{ section.settings.nav_icon_color }};
   }
   .brands-home__pagination .swiper-pagination-bullet {
-    background: #000;
+    background: {{ section.settings.dots_color }};
     opacity: .25;
   }
   .brands-home__pagination .swiper-pagination-bullet-active {
@@ -203,7 +208,9 @@
     }
 
     .brands-home__pagination.is-hidden,
-    .brands-home__nav.is-hidden { display: none !important; }
+    .brands-home__nav.is-hidden {
+      display: none !important;
+    }
   }
 </style>
 
@@ -243,34 +250,31 @@
     }
 
     function readSettings() {
-      // Desktop
-      var desktopSlidesToShow = toInt({{ section.settings.slides_to_show | default: 4 | json }}, 4);
+      var desktopSlidesToShow   = toInt({{ section.settings.slides_to_show   | default: 4 | json }}, 4);
       var desktopSlidesToScroll = toInt({{ section.settings.slides_to_scroll | default: 1 | json }}, 1);
-      var desktopShowArrows = toBool({{ section.settings.show_arrows | default: true | json }});
-      var desktopShowDots = toBool({{ section.settings.show_dots | default: false | json }});
+      var desktopShowArrows     = toBool({{ section.settings.show_arrows     | default: true  | json }});
+      var desktopShowDots       = toBool({{ section.settings.show_dots       | default: false | json }});
 
-      // Mobile
-      var mobileSlidesToShow = toInt({{ section.settings.mobile_slides_to_show | default: 1 | json }}, 1);
-      var mobileSlidesToScroll = toInt({{ section.settings.mobile_slides_to_scroll | default: 1 | json }}, 1);
-      var mobileShowArrows = toBool({{ section.settings.mobile_show_arrows | default: true | json }});
-      var mobileShowDots = toBool({{ section.settings.mobile_show_dots | default: false | json }});
-      var mobileLoop = toBool({{ section.settings.mobile_infinite | default: true | json }});
-      var mobileAutoplay = toBool({{ section.settings.mobile_autoplay | default: true | json }});
-      var mobileAutoplaySpeed = toInt({{ section.settings.mobile_autoplay_speed | default: 6 | json }}, 6) * 1000;
+      var mobileSlidesToShow    = toInt({{ section.settings.mobile_slides_to_show    | default: 1 | json }}, 1);
+      var mobileSlidesToScroll  = toInt({{ section.settings.mobile_slides_to_scroll  | default: 1 | json }}, 1);
+      var mobileShowArrows      = toBool({{ section.settings.mobile_show_arrows      | default: true  | json }});
+      var mobileShowDots        = toBool({{ section.settings.mobile_show_dots        | default: false | json }});
+      var mobileLoop            = toBool({{ section.settings.mobile_infinite        | default: true  | json }});
+      var mobileAutoplay        = toBool({{ section.settings.mobile_autoplay        | default: true  | json }});
+      var mobileAutoplaySpeed   = toInt({{ section.settings.mobile_autoplay_speed   | default: 6 | json }}, 6) * 1000;
 
       return {
-        desktopSlidesToShow: desktopSlidesToShow,
-        desktopSlidesToScroll: desktopSlidesToScroll,
-        desktopShowArrows: desktopShowArrows,
-        desktopShowDots: desktopShowDots,
-
-        mobileSlidesToShow: mobileSlidesToShow,
-        mobileSlidesToScroll: mobileSlidesToScroll,
-        mobileShowArrows: mobileShowArrows,
-        mobileShowDots: mobileShowDots,
-        mobileLoop: mobileLoop,
-        mobileAutoplay: mobileAutoplay,
-        mobileAutoplaySpeed: mobileAutoplaySpeed
+        desktopSlidesToShow,
+        desktopSlidesToScroll,
+        desktopShowArrows,
+        desktopShowDots,
+        mobileSlidesToShow,
+        mobileSlidesToScroll,
+        mobileShowArrows,
+        mobileShowDots,
+        mobileLoop,
+        mobileAutoplay,
+        mobileAutoplaySpeed
       };
     }
 
@@ -298,9 +302,8 @@
 
     function buildSwiperOptions(s) {
       var mobile = isMobile();
-
       var showArrows = mobile ? s.mobileShowArrows : s.desktopShowArrows;
-      var showDots = mobile ? s.mobileShowDots : s.desktopShowDots;
+      var showDots   = mobile ? s.mobileShowDots   : s.desktopShowDots;
 
       if (paginationEl) paginationEl.classList.toggle('is-hidden', !showDots);
       if (prevEl) prevEl.classList.toggle('is-hidden', !showArrows);
@@ -309,13 +312,9 @@
       var opts = {
         spaceBetween: 20,
         autoHeight: true,
-
-        // Loop only on mobile (based on your settings)
-        loop: mobile ? s.mobileLoop : false,
-
+        loop: mobile ? s.mobileLoop : toBool({{ section.settings.desktop_infinite | default: false | json }}),
         slidesPerView: 1,
         slidesPerGroup: 1,
-
         breakpoints: {
           0: {
             slidesPerView: s.mobileSlidesToShow,
@@ -331,13 +330,14 @@
       if (showDots && paginationEl) {
         opts.pagination = { el: paginationEl, clickable: true };
       }
-
       if (showArrows && prevEl && nextEl) {
         opts.navigation = { prevEl: prevEl, nextEl: nextEl };
       }
-
       if (mobile && s.mobileAutoplay) {
         opts.autoplay = { delay: s.mobileAutoplaySpeed, disableOnInteraction: false };
+      } else if (!mobile && toBool({{ section.settings.desktop_autoplay | default: false | json }})) {
+        var desktopSpeed = toInt({{ section.settings.desktop_autoplay_speed | default: 6 | json }}, 6) * 1000;
+        opts.autoplay = { delay: desktopSpeed, disableOnInteraction: false };
       }
 
       return opts;
