@@ -1,0 +1,147 @@
+<style>
+  .footer-bottom-outer {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer-bottom-inner {
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .footer-bottom-inner--page {
+    max-width: 1450px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .footer-bottom-inner--full {
+    width: 100%;
+  }
+
+  .footer-bottom-inner.align-left   { justify-content: flex-start; }
+  .footer-bottom-inner.align-center { justify-content: center; }
+  .footer-bottom-inner.align-right  { justify-content: flex-end; }
+
+  .footer-bottom-part {
+    width: 23.5%;
+    margin: 0 10px;
+  }
+
+  .footer-bottom-part p:first-child {
+    color: {{ section.settings.title_color }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer-bottom-inner {
+      flex-direction: column;
+    }
+    .footer-bottom-inner.align-left   { align-items: flex-start; }
+    .footer-bottom-inner.align-center { align-items: center; }
+    .footer-bottom-inner.align-right  { align-items: flex-end; }
+
+    .footer-bottom-part {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+</style>
+
+<div class="footer-bottom-outer color-{{ section.settings.color_scheme }}">
+  <div class="footer-bottom-inner{% if section.settings.section_width == 'page' %} footer-bottom-inner--page{% else %} footer-bottom-inner--full{% endif %} align-{{ section.settings.section_alignment }}"
+       style="{% if section.settings.enable_border %}border-top: 2px solid {{ section.settings.border_color }}; border-bottom: 2px solid {{ section.settings.border_color }};{% endif %}">
+    <div class="footer-bottom-part">
+      {{ section.settings.part1_title }}
+      {{ section.settings.part1_text }}
+    </div>
+    <div class="footer-bottom-part">
+      {{ section.settings.part2_title }}
+      {{ section.settings.part2_text }}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Footer Bottom",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "default": "page",
+      "options": [
+        { "value": "page", "label": "Page Width" },
+        { "value": "full", "label": "Full Width" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "Enable Top & Bottom Border",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.enable_border == true }}"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titles Color",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "part1_title",
+      "label": "Title",
+      "default": "<p>Call Us</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "part1_text",
+      "label": "Call",
+      "default": "<p>Add your number</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "part2_title",
+      "label": "Title",
+      "default": "<p>Email Us</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "part2_text",
+      "label": "Email",
+      "default": "<p>Add your email</p>"
+    },
+    {
+      "type": "select",
+      "id": "section_alignment",
+      "label": "Section Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Footer Bottom",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}
