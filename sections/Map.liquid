@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="{{ 'iframe-embed.css' | asset_url }}">
+
+<section
+  class="iframe-embed-section iframe-embed-section--{{ section.settings.align }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    --iframe-width: {{ section.settings.iframe_width }}px;
+    --iframe-height: {{ section.settings.iframe_height }}px;
+    --content-max-width: {{ section.settings.max_width }}px;
+  "
+>
+  <div class="iframe-embed-section__container">
+    <div class="iframe-embed-section__frame-wrap" data-iframe-wrap>
+      {% if section.settings.iframe_code != blank %}
+        {{ section.settings.iframe_code }}
+      {% elsif section.settings.iframe_url != blank %}
+        <iframe
+          src="{{ section.settings.iframe_url | escape }}"
+          title="{{ section.settings.iframe_title | escape }}"
+          loading="{{ section.settings.loading }}"
+          referrerpolicy="no-referrer-when-downgrade"
+          {% if section.settings.allow_fullscreen %}allowfullscreen{% endif %}
+        ></iframe>
+      {% else %}
+        <div class="iframe-embed-section__empty">
+          Add an iframe URL or iframe code in the section settings.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const root = document.currentScript && document.currentScript.closest('.iframe-embed-section');
+    if (!root) return;
+
+    const wrap = root.querySelector('[data-iframe-wrap]');
+    if (!wrap) return;
+
+    const iframe = wrap.querySelector('iframe');
+    if (!iframe) return;
+
+    // Force override attributes too (Google Maps embed uses attributes)
+    const styles = getComputedStyle(root);
+    const w = styles.getPropertyValue('--iframe-width').trim();
+    const h = styles.getPropertyValue('--iframe-height').trim();
+
+    if (w.endsWith('px')) iframe.setAttribute('width', w.replace('px', ''));
+    if (h.endsWith('px')) iframe.setAttribute('height', h.replace('px', ''));
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Iframe embed",
+  "settings": [
+    { "type": "url", "id": "iframe_url", "label": "Iframe URL" },
+    {
+      "type": "textarea",
+      "id": "iframe_code",
+      "label": "Iframe code (optional)",
+      "info": "Paste full <iframe> code. If provided, it will be used instead of the URL."
+    },
+    { "type": "text", "id": "iframe_title", "label": "Iframe title", "default": "Embedded content" },
+
+    {
+      "type": "range",
+      "id": "iframe_width",
+      "label": "Iframe width (px)",
+      "min": 300,
+      "max": 1900,
+      "step": 50,
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "iframe_height",
+      "label": "Iframe height (px)",
+      "min": 100,
+      "max": 1100,
+      "step": 10,
+      "default": 600
+    },
+
+    {
+      "type": "select",
+      "id": "loading",
+      "label": "Loading",
+      "default": "lazy",
+      "options": [
+        { "value": "lazy", "label": "Lazy" },
+        { "value": "eager", "label": "Eager" }
+      ]
+    },
+    { "type": "checkbox", "id": "allow_fullscreen", "label": "Allow fullscreen", "default": true },
+
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Section max width (px)",
+      "min": 320,
+      "max": 1800,
+      "step": 20,
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 24
+    }
+  ],
+  "presets": [{ "name": "Iframe embed" }]
+}
+{% endschema %}
