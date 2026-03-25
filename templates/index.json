@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "hero_jVaWmY": {
       "type": "hero",
@@ -65,6 +66,7 @@
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
         "media_type_2_mobile": "image",
+        "link": "",
         "open_in_new_tab": false,
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -281,10 +283,122 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "homepage_brands_PFbEKB": {
+      "type": "Homepage-Brands",
+      "blocks": {
+        "brand_dbRcAy": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Amsoil_7857283e-8fd0-41ad-969b-7bc1c51056e3.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_z3p48q": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Exmark.svg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_8h9Vht": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Billy_Goat_1.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_cWgyQF": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Echo.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_trzndN": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Blue_Daimond.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_hgAYyx": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Briggs_Stratton.jpg",
+            "title": "",
+            "link": ""
+          }
+        },
+        "brand_cR9Jxw": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Barreto.jpg",
+            "title": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "brand_dbRcAy",
+        "brand_z3p48q",
+        "brand_8h9Vht",
+        "brand_cWgyQF",
+        "brand_trzndN",
+        "brand_hgAYyx",
+        "brand_cR9Jxw"
+      ],
+      "name": "Brands Homepage",
+      "settings": {
+        "width": "page-width",
+        "max_width": 1500,
+        "layout": "carousel",
+        "items_per_row": 4,
+        "mobile_layout_settings": false,
+        "mobile_layout_type": "grid",
+        "mobile_items_per_row": 2,
+        "slides_to_show": 5,
+        "slides_to_scroll": 1,
+        "show_arrows": true,
+        "show_dots": false,
+        "desktop_infinite": false,
+        "desktop_autoplay": false,
+        "desktop_autoplay_speed": 6,
+        "mobile_slides_to_show": "1",
+        "mobile_slides_to_scroll": "1",
+        "mobile_show_arrows": true,
+        "mobile_show_dots": false,
+        "mobile_infinite": true,
+        "mobile_autoplay": true,
+        "mobile_autoplay_speed": 6,
+        "background_style": "none",
+        "background_color": "#ffffff",
+        "title": "Our Brands",
+        "title_color": "#000000",
+        "title_size": 28,
+        "title_position": "center",
+        "description": "",
+        "description_size": 16,
+        "description_color": "#000000",
+        "description_position": "center",
+        "nav_bg_color": "rgba(0,0,0,0.55)",
+        "nav_icon_color": "#ffffff",
+        "dots_color": "#000000",
+        "placeholder_bg": "#f0f0f0",
+        "placeholder_text": "#999999",
+        "padding-block-start": 12,
+        "padding-block-end": 12
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "homepage_brands_PFbEKB"
   ]
 }
