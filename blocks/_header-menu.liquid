@@ -295,24 +295,12 @@
     display: flex;
     min-height: var(--minimum-touch-target);
     align-items: center;
-      position: relative; /* needed for the underline pseudo-element */
-  }
 
-  .menu-list__link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0; /* aligns at the bottom of the link */
-    width: 0;
-    height: 2px; /* thickness of the red line */
-    background-color: red; /* change to any color variable if desired */
-    transition: width 200ms var(--animation-easing);
-  }
+    &:hover,
+    &:focus {
+      color: var(--menu-top-level-font-color);
+    }
 
-  .menu-list__list-item:where(:hover, :focus-within) .menu-list__link::after,
-  .menu-list__link--active::after {
-    width: 100%;
-  }
     @media screen and (min-width: 750px) {
       font-size: var(--menu-top-level-font-size-desktop);
     }
