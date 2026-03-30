@@ -288,7 +288,7 @@
       "type": "about-us",
       "name": "About Us",
       "settings": {
-        "bg_color": "#f8f8f8",
+        "bg_color": "#ffffff",
         "section_padding_top": 40,
         "section_padding_right": 0,
         "section_padding_bottom": 40,
