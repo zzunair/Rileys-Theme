@@ -391,7 +391,7 @@
       "name": "Brands Homepage",
       "settings": {
         "width": "page-width",
-        "max_width": 1500,
+        "max_width": 1450,
         "layout": "carousel",
         "items_per_row": 4,
         "mobile_layout_settings": false,
@@ -426,8 +426,8 @@
         "dots_color": "#000000",
         "placeholder_bg": "#f0f0f0",
         "placeholder_text": "#999999",
-        "padding-block-start": 12,
-        "padding-block-end": 12
+        "padding-block-start": 0,
+        "padding-block-end": 40
       }
     }
   },
