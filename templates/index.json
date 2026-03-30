@@ -835,6 +835,14 @@
             "title": "",
             "link": ""
           }
+        },
+        "brand_w6hbLi": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Amsoil_7857283e-8fd0-41ad-969b-7bc1c51056e3.jpg",
+            "title": "",
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -844,7 +852,8 @@
         "brand_cWgyQF",
         "brand_trzndN",
         "brand_hgAYyx",
-        "brand_cR9Jxw"
+        "brand_cR9Jxw",
+        "brand_w6hbLi"
       ],
       "name": "Brands Homepage",
       "settings": {
