@@ -265,7 +265,7 @@
       },
       "name": "Featured collection",
       "settings": {
-        "collection": "equipment",
+        "collection": "frontpage",
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 8,
