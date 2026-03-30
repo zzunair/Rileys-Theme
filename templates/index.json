@@ -243,6 +243,7 @@
             "buy_buttons_Xhh8b3": {
               "type": "buy-buttons",
               "name": "t:names.product_buy_buttons",
+              "disabled": true,
               "settings": {
                 "stacking": false,
                 "show_pickup_availability": false,
