@@ -852,7 +852,7 @@
         "max_width": 1450,
         "layout": "carousel",
         "items_per_row": 4,
-        "mobile_layout_settings": false,
+        "mobile_layout_settings": true,
         "mobile_layout_type": "grid",
         "mobile_items_per_row": 2,
         "slides_to_show": 6,
