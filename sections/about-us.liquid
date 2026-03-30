@@ -45,13 +45,23 @@
       "
     >
       {% if section.settings.heading != blank %}
-        <h2 style="color: {{ section.settings.heading_color }};">
+        <h2
+          style="
+            color: {{ section.settings.heading_color }};
+            font-size: {{ section.settings.heading_font_size }}px;
+          "
+        >
           {{ section.settings.heading }}
         </h2>
       {% endif %}
 
       {% if section.settings.text != blank %}
-        <p style="color: {{ section.settings.text_color }};">
+        <p
+          style="
+            color: {{ section.settings.text_color }};
+            font-size: {{ section.settings.text_font_size }}px;
+          "
+        >
           {{ section.settings.text }}
         </p>
       {% endif %}
@@ -64,6 +74,7 @@
             background: {{ section.settings.button_color }};
             color: {{ section.settings.button_text_color }};
             border-radius: {{ section.settings.button_radius }}px;
+            font-size: {{ section.settings.button_font_size }}px;
           "
           {% if section.settings.button_new_tab %}
             target="_blank" rel="noopener noreferrer"
@@ -136,8 +147,26 @@
     { "type": "header", "content": "Typography" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "About Us" },
     { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#000000" },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (px)",
+      "min": 12,
+      "max": 64,
+      "step": 1,
+      "default": 32
+    },
     { "type": "textarea", "id": "text", "label": "Content", "default": "Write something about your company here." },
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#333333" },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "Text Font Size (px)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    },
     {
       "type": "select",
       "id": "text_align",
@@ -182,6 +211,16 @@
       "max": 40,
       "step": 2,
       "default": 4,
+      "visible_if": "{{ section.settings.button_label != blank }}"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size (px)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "default": 14,
       "visible_if": "{{ section.settings.button_label != blank }}"
     }
   ],
