@@ -56,7 +56,7 @@
             "type_font_primary_size": "1.125rem",
             "menu_font_style": "inverse_large",
             "type_font_primary_link": "accent",
-            "type_case_primary_link": "none",
+            "type_case_primary_link": "uppercase",
             "menu_style": "text",
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
