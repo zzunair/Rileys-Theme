@@ -42,7 +42,7 @@
     "type_size_h6": "12",
     "type_line_height_h6": "display-loose",
     "page_width": "narrow",
-    "page_transition_enabled": false,
+    "page_transition_enabled": true,
     "transition_to_main_product": true,
     "card_hover_effect": "none",
     "badge_position": "top-right",
