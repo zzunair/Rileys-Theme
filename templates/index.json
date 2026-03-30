@@ -275,7 +275,7 @@
         "columns_gap": 8,
         "rows_gap": 24,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "square",
         "section_width": "page-width",
         "horizontal_alignment": "flex-start",
         "gap": 28,
