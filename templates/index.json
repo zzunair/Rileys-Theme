@@ -313,7 +313,7 @@
         "button_label": "Contact Us Now",
         "button_link": "shopify://pages/contact",
         "button_new_tab": false,
-        "button_color": "#ff0903",
+        "button_color": "#c4100c",
         "button_text_color": "#ffffff",
         "button_radius": 0,
         "button_font_size": 14
