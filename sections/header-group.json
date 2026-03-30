@@ -64,7 +64,7 @@
             "address": "123 Dummy Street, Dummy City",
             "button_label": "Map & Hours",
             "button_link": "",
-            "text_color": "#111111",
+            "text_color": "#ffffff",
             "text_size": 14,
             "icon_size": 16,
             "gap": 14,
