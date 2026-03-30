@@ -19,112 +19,73 @@
       padding-right: {{ section.settings.container_padding_right }}px;
       padding-bottom: {{ section.settings.container_padding_bottom }}px;
       padding-left: {{ section.settings.container_padding_left }}px;
-      margin: 0 auto;
     "
   >
-    {%- assign image_width = section.settings.image_width | default: 50 -%}
-    {%- assign content_width = 100 | minus: image_width -%}
-
-    <div
-      class="about-us-inner"
-      style="
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 20px;
-      "
-    >
-      {% if section.settings.image != blank %}
-        <div
-          class="about-us-image"
-          style="
-            flex: 0 0 {{ image_width }}%;
-            max-width: {{ image_width }}%;
-            order: {% if section.settings.image_position == 'right' %}2{% else %}0{% endif %};
-          "
-        >
-          <img
-            src="{{ section.settings.image | image_url: width: 1000 }}"
-            alt="{{ section.settings.heading | escape }}"
-            style="
-              width: 100%;
-              height: auto;
-              display: block;
-              border-radius: {{ section.settings.image_radius }}px;
-            "
-          >
-        </div>
-      {% endif %}
-
+    {% if section.settings.image != blank %}
       <div
-        class="about-us-content"
+        class="about-us-image"
         style="
-          flex: 1 1 {{ content_width }}%;
-          max-width: {{ content_width }}%;
-          text-align: {{ section.settings.text_align }};
-          order: 1;
+          flex-basis: {{ section.settings.image_width }}%;
+          order: {% if section.settings.image_position == 'right' %}2{% else %}0{% endif %};
         "
       >
-        {% if section.settings.heading != blank %}
-          <h2
-            style="
-              color: {{ section.settings.heading_color }};
-              font-size: {{ section.settings.heading_font_size }}px;
-            "
-          >
-            {{ section.settings.heading }}
-          </h2>
-        {% endif %}
-
-        {% if section.settings.text != blank %}
-          <p
-            style="
-              color: {{ section.settings.text_color }};
-              font-size: {{ section.settings.text_font_size }}px;
-            "
-          >
-            {{ section.settings.text }}
-          </p>
-        {% endif %}
-
-        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-          <a
-            href="{{ section.settings.button_link }}"
-            class="about-btn"
-            style="
-              background: {{ section.settings.button_color }};
-              color: {{ section.settings.button_text_color }};
-              border-radius: {{ section.settings.button_radius }}px;
-              font-size: {{ section.settings.button_font_size }}px;
-              display: inline-block;
-              padding: 10px 20px;
-            "
-            {% if section.settings.button_new_tab %}
-              target="_blank" rel="noopener noreferrer"
-            {% endif %}
-          >
-            {{ section.settings.button_label }}
-          </a>
-        {% endif %}
+        <img
+          src="{{ section.settings.image | image_url: width: 1000 }}"
+          alt="{{ section.settings.heading | escape }}"
+          style="border-radius: {{ section.settings.image_radius }}px;"
+        >
       </div>
+    {% endif %}
+
+    <div
+      class="about-us-content"
+      style="
+        text-align: {{ section.settings.text_align }};
+        order: 1;
+      "
+    >
+      {% if section.settings.heading != blank %}
+        <h2
+          style="
+            color: {{ section.settings.heading_color }};
+            font-size: {{ section.settings.heading_font_size }}px;
+          "
+        >
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <p
+          style="
+            color: {{ section.settings.text_color }};
+            font-size: {{ section.settings.text_font_size }}px;
+          "
+        >
+          {{ section.settings.text }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <a
+          href="{{ section.settings.button_link }}"
+          class="about-btn"
+          style="
+            background: {{ section.settings.button_color }};
+            color: {{ section.settings.button_text_color }};
+            border-radius: {{ section.settings.button_radius }}px;
+            font-size: {{ section.settings.button_font_size }}px;
+          "
+          {% if section.settings.button_new_tab %}
+            target="_blank" rel="noopener noreferrer"
+          {% endif %}
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
     </div>
   </div>
 </section>
-
-<style>
-  /* Optional: basic responsive stacking for mobile */
-  @media (max-width: 768px) {
-    .about-us-inner {
-      flex-direction: column;
-    }
-    .about-us-image,
-    .about-us-content {
-      max-width: 100% !important;
-      flex: 0 0 100% !important;
-      order: unset !important;
-    }
-  }
-</style>
 
 {% schema %}
 {
@@ -141,53 +102,13 @@
 
     { "type": "header", "content": "Container" },
     { "type": "color", "id": "container_bg", "label": "Container Background", "default": "#ffffff" },
-    {
-      "type": "range",
-      "id": "container_width",
-      "label": "Container Width",
-      "min": 800,
-      "max": 1600,
-      "step": 50,
-      "default": 1200
-    },
+    { "type": "range", "id": "container_width", "label": "Container Width", "min": 800, "max": 1600, "step": 50, "default": 1200 },
 
     { "type": "header", "content": "Container Padding (All Sides)" },
-    {
-      "type": "range",
-      "id": "container_padding_top",
-      "label": "Top",
-      "min": 0,
-      "max": 200,
-      "step": 2,
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "container_padding_right",
-      "label": "Right",
-      "min": 0,
-      "max": 200,
-      "step": 2,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "container_padding_bottom",
-      "label": "Bottom",
-      "min": 0,
-      "max": 200,
-      "step": 2,
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "container_padding_left",
-      "label": "Left",
-      "min": 0,
-      "max": 200,
-      "step": 2,
-      "default": 20
-    },
+    { "type": "range", "id": "container_padding_top", "label": "Top", "min": 0, "max": 200, "step": 2, "default": 40 },
+    { "type": "range", "id": "container_padding_right", "label": "Right", "min": 0, "max": 200, "step": 2, "default": 20 },
+    { "type": "range", "id": "container_padding_bottom", "label": "Bottom", "min": 0, "max": 200, "step": 2, "default": 40 },
+    { "type": "range", "id": "container_padding_left", "label": "Left", "min": 0, "max": 200, "step": 2, "default": 20 },
 
     { "type": "header", "content": "Image" },
     { "type": "image_picker", "id": "image", "label": "Section Image" },
@@ -235,12 +156,7 @@
       "step": 1,
       "default": 32
     },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "Content",
-      "default": "Write something about your company here."
-    },
+    { "type": "textarea", "id": "text", "label": "Content", "default": "Write something about your company here." },
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#333333" },
     {
       "type": "range",
@@ -308,8 +224,6 @@
       "visible_if": "{{ section.settings.button_label != blank }}"
     }
   ],
-  "presets": [
-    { "name": "About Us" }
-  ]
+  "presets": [{ "name": "About Us" }]
 }
 {% endschema %}
