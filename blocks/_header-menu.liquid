@@ -199,8 +199,16 @@
     & li {
       width: max-content;
       padding-block: var(--padding-sm);
-        gap: 50px;
+        gap: var(--menu-horizontal-gap);
     }
+
+    @media screen and (min-width: 750px) {
+    .menu-list__link {
+        font-size: var(--menu-top-level-font-size-desktop);
+        gap: 50px !important;
+        padding: 0px 35px !important;
+    }
+}
 
     & li:first-of-type {
       padding-inline-start: var(--menu-horizontal-gap);
