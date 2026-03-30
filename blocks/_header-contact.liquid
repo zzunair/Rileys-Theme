@@ -74,18 +74,24 @@
 </div>
 
 {% stylesheet %}
-  .header-contact-inline {
+ .header-contact-inline {
     display: inline-flex;
     align-items: center;
     gap: var(--hc-gap);
     white-space: nowrap;
-
-    /* Width controls (customizer) */
     flex: var(--hc-flex, 0 0 auto);
-    max-width: var(--hc-max-width, none);
+    max-width: 200px !important;
     overflow: hidden;
-    min-width: 0;
+    min-width: 1200px;
+    margin-left: 0; /* reset for mobile/tablet */
+}
+
+/* Desktop only */
+@media screen and (min-width: 990px) {
+  .header-contact-inline {
+    margin-left: 120px;
   }
+}
 
   .hc-item {
     display: inline-flex;
