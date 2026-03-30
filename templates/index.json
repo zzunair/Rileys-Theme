@@ -284,6 +284,37 @@
         "padding-block-end": 48
       }
     },
+    "about_us_xiwLrg": {
+      "type": "about-us",
+      "name": "About Us",
+      "settings": {
+        "bg_color": "#f8f8f8",
+        "section_padding_top": 40,
+        "section_padding_right": 0,
+        "section_padding_bottom": 40,
+        "section_padding_left": 0,
+        "container_bg": "#ffffff",
+        "container_width": 1200,
+        "container_padding_top": 40,
+        "container_padding_right": 20,
+        "container_padding_bottom": 40,
+        "container_padding_left": 20,
+        "image_position": "left",
+        "image_width": 50,
+        "image_radius": 8,
+        "heading": "About Us",
+        "heading_color": "#000000",
+        "text": "Write something about your company here.",
+        "text_color": "#333333",
+        "text_align": "left",
+        "button_label": "Learn More",
+        "button_link": "",
+        "button_new_tab": false,
+        "button_color": "#000000",
+        "button_text_color": "#ffffff",
+        "button_radius": 4
+      }
+    },
     "homepage_brands_PFbEKB": {
       "type": "Homepage-Brands",
       "blocks": {
@@ -362,7 +393,7 @@
         "mobile_layout_settings": false,
         "mobile_layout_type": "grid",
         "mobile_items_per_row": 2,
-        "slides_to_show": 5,
+        "slides_to_show": 6,
         "slides_to_scroll": 1,
         "show_arrows": true,
         "show_dots": false,
@@ -378,7 +409,7 @@
         "mobile_autoplay_speed": 6,
         "background_style": "none",
         "background_color": "#ffffff",
-        "title": "Our Brands",
+        "title": "",
         "title_color": "#000000",
         "title_size": 28,
         "title_position": "center",
@@ -386,7 +417,7 @@
         "description_size": 16,
         "description_color": "#000000",
         "description_position": "center",
-        "nav_bg_color": "rgba(0,0,0,0.55)",
+        "nav_bg_color": "#0000008c",
         "nav_icon_color": "#ffffff",
         "dots_color": "#000000",
         "placeholder_bg": "#f0f0f0",
@@ -394,43 +425,12 @@
         "padding-block-start": 12,
         "padding-block-end": 12
       }
-    },
-    "about_us_xiwLrg": {
-      "type": "about-us",
-      "name": "About Us",
-      "settings": {
-        "bg_color": "#f8f8f8",
-        "section_padding_top": 40,
-        "section_padding_right": 0,
-        "section_padding_bottom": 40,
-        "section_padding_left": 0,
-        "container_bg": "#ffffff",
-        "container_width": 1200,
-        "container_padding_top": 40,
-        "container_padding_right": 20,
-        "container_padding_bottom": 40,
-        "container_padding_left": 20,
-        "image_position": "left",
-        "image_width": 50,
-        "image_radius": 8,
-        "heading": "About Us",
-        "heading_color": "#000000",
-        "text": "Write something about your company here.",
-        "text_color": "#333333",
-        "text_align": "left",
-        "button_label": "Learn More",
-        "button_link": "",
-        "button_new_tab": false,
-        "button_color": "#000000",
-        "button_text_color": "#ffffff",
-        "button_radius": 4
-      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "product_list_fa6P9H",
-    "homepage_brands_PFbEKB",
-    "about_us_xiwLrg"
+    "about_us_xiwLrg",
+    "homepage_brands_PFbEKB"
   ]
 }
