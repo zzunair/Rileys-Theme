@@ -277,7 +277,6 @@
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
-                  "disabled": true,
                   "static": true,
                   "settings": {
                     "style_class": "button-secondary"
