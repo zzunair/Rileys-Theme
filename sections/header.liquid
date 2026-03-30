@@ -1,10 +1,8 @@
-
-
 {% liquid
-  assign order = 'logo,menu,localization,search,mobile_search,actions'
+  assign order = 'logo,menu,localization,search,contact,mobile_search,actions'
 
   if shop.customer_accounts_enabled
-    assign order = 'mobile_search,logo,menu,localization,search,actions'
+    assign order = 'mobile_search,logo,menu,localization,search,contact,actions'
   endif
 
   assign rows = 'top,bottom' | split: ','
@@ -47,7 +45,7 @@
     content_for 'block', type: '_header-logo', id: 'header-logo'
   endcapture
 
-   capture contact
+  capture contact
     content_for 'block', type: '_header-contact', id: 'header-contact'
   endcapture
 
@@ -75,26 +73,27 @@
   if section.settings.localization_position == 'left'
     if section.settings.search_position == 'left'
       if shop.customer_accounts_enabled
-        assign order = 'mobile_search,logo,search,localization,menu,actions'
+        assign order = 'mobile_search,logo,search,localization,menu,contact,actions'
       else
-        assign order = 'logo,search,localization,menu,mobile_search,actions'
+        assign order = 'logo,search,localization,menu,contact,mobile_search,actions'
       endif
     else
       if shop.customer_accounts_enabled
-        assign order = 'mobile_search,logo,localization,menu,search,actions'
+        assign order = 'mobile_search,logo,localization,menu,search,contact,actions'
       else
-        assign order = 'logo,localization,menu,search,mobile_search,actions'
+        assign order = 'logo,localization,menu,search,contact,mobile_search,actions'
       endif
     endif
   else
     if section.settings.search_position == 'left'
       if shop.customer_accounts_enabled
-        assign order = 'mobile_search,logo,search,menu,localization,actions'
+        assign order = 'mobile_search,logo,search,menu,localization,contact,actions'
       else
-        assign order = 'logo,search,menu,localization,mobile_search,actions'
+        assign order = 'logo,search,menu,localization,contact,mobile_search,actions'
       endif
     endif
   endif
+
   capture search
     render 'search', style: search_style, class: search_class
   endcapture
@@ -333,6 +332,7 @@
         first: first,
         logo: logo,
         menu: menu,
+        contact: contact,
         actions: actions,
         localization: localization_markup,
         search: search,
