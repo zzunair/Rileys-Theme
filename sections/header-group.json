@@ -54,7 +54,7 @@
             "menu": "main-menu",
             "color_scheme": "",
             "type_font_primary_size": "1.125rem",
-            "menu_font_style": "inverse_large",
+            "menu_font_style": "inverse",
             "type_font_primary_link": "accent",
             "type_case_primary_link": "uppercase",
             "menu_style": "text",
