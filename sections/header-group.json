@@ -20,7 +20,7 @@
           "settings": {
             "hide_logo_on_home_page": false,
             "custom_height": 100,
-            "custom_height_mobile": 20,
+            "custom_height_mobile": 76,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
