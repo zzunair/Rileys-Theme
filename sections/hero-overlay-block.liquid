@@ -1,0 +1,531 @@
+{% assign block_count = section.settings.overlay_block_count | plus: 0 %}
+{% assign mobile_layout = section.settings.mobile_layout | default: 'grid' %}
+
+{% case section.settings.hero_height_desktop %}
+  {% when 'small' %}
+    {% assign desktop_height = 300 %}
+  {% when 'medium' %}
+    {% assign desktop_height = 500 %}
+  {% when 'large' %}
+    {% assign desktop_height = 750 %}
+{% endcase %}
+
+{% case section.settings.hero_height_mobile %}
+  {% when 'small' %}
+    {% assign mobile_height = 200 %}
+  {% when 'medium' %}
+    {% assign mobile_height = 350 %}
+  {% when 'large' %}
+    {% assign mobile_height = 500 %}
+{% endcase %}
+
+<style>
+    .hero-overlay-section-{{ section.id }} {
+      position: relative;
+      width: 100%;
+      overflow: visible;
+    }
+
+    /* ── Hero Image ── */
+  .hero-overlay-section-{{ section.id }} .hero-image-wrapper {
+    width: 100%;
+    height: {{ desktop_height }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 768px) {
+    .hero-overlay-section-{{ section.id }} .hero-image-wrapper {
+      height: {{ mobile_height }}px;
+    }
+  }
+    .hero-overlay-section-{{ section.id }} .hero-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: {{ section.settings.hero_image_fit }};
+      display: block;
+    }
+
+    /* ── Hero Text Overlay ── */
+    .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      padding: 30px 40px;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    .hero-overlay-section-{{ section.id }} .hero-text-overlay .hero-text-inner {
+      pointer-events: all;
+    }
+
+    {% case section.settings.hero_text_position %}
+      {% when 'center' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+      {% when 'center-left' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: flex-start;
+          align-items: center;
+          text-align: left;
+        }
+      {% when 'center-right' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: flex-end;
+          align-items: center;
+          text-align: right;
+        }
+      {% when 'center-top' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: center;
+          align-items: flex-start;
+          text-align: center;
+        }
+      {% when 'top-left' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: flex-start;
+          align-items: flex-start;
+          text-align: left;
+        }
+      {% when 'top-right' %}
+        .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+          justify-content: flex-end;
+          align-items: flex-start;
+          text-align: right;
+        }
+    {% endcase %}
+
+    /* ── Overlay Blocks Wrapper ── */
+    .hero-overlay-section-{{ section.id }} .overlay-blocks-wrapper {
+      position: relative;
+      margin-top: -{{ section.settings.overlay_margin_top }}px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 16px;
+      padding: 0 20px 40px;
+      box-sizing: border-box;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* ── Individual Block ── */
+    .hero-overlay-section-{{ section.id }} .overlay-block {
+      flex: 1;
+      min-width: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .hero-overlay-section-{{ section.id }} .overlay-block:hover {
+      transform: translateY(-4px);
+    }
+
+    /* ── Block Image ── */
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-image-wrapper {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .hero-overlay-section-{{ section.id }} .overlay-block:hover .block-image-wrapper img {
+      transform: scale(1.04);
+    }
+
+    /* ── Block Text ── */
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text {
+      padding: 14px 16px;
+      transition: color 0.3s ease;
+      text-align: center;
+    }
+
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text p,
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text h1,
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text h2,
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text h3,
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text h4,
+    .hero-overlay-section-{{ section.id }} .overlay-block .block-text span {
+      margin: 0;
+      transition: color 0.3s ease;
+    }
+
+    /* Per-block text colors */
+    {% for block in section.blocks limit: block_count %}
+      .overlay-block-{{ block.id }} .block-text,
+      .overlay-block-{{ block.id }} .block-text p,
+      .overlay-block-{{ block.id }} .block-text h1,
+      .overlay-block-{{ block.id }} .block-text h2,
+      .overlay-block-{{ block.id }} .block-text h3,
+      .overlay-block-{{ block.id }} .block-text span {
+        color: {{ block.settings.overlay_text_color }};
+      }
+
+      .overlay-block-{{ block.id }}:hover .block-text,
+      .overlay-block-{{ block.id }}:hover .block-text p,
+      .overlay-block-{{ block.id }}:hover .block-text h1,
+      .overlay-block-{{ block.id }}:hover .block-text h2,
+      .overlay-block-{{ block.id }}:hover .block-text h3,
+      .overlay-block-{{ block.id }}:hover .block-text span {
+        color: {{ block.settings.overlay_text_hover_color }};
+      }
+    {% endfor %}
+
+    .hero-overlay-section-{{ section.id }} .hero-text-inner {
+      color: {{ section.settings.hero_text_color }};
+    }
+
+    .hero-overlay-section-{{ section.id }} .hero-text-inner p,
+    .hero-overlay-section-{{ section.id }} .hero-text-inner h1,
+    .hero-overlay-section-{{ section.id }} .hero-text-inner h2,
+    .hero-overlay-section-{{ section.id }} .hero-text-inner h3,
+    .hero-overlay-section-{{ section.id }} .hero-text-inner h4,
+    .hero-overlay-section-{{ section.id }} .hero-text-inner span {
+      color: {{ section.settings.hero_text_color }};
+    }
+
+    /* ── Horizon-style Scroll Progress Bar ── */
+    .hero-overlay-section-{{ section.id }} .scroll-bar-wrapper {
+      display: none;
+      padding: 0 20px 24px;
+      box-sizing: border-box;
+    }
+
+    .hero-overlay-section-{{ section.id }} .scroll-bar-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-overlay-section-{{ section.id }} .scroll-bar-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: currentColor;
+      border-radius: 2px;
+      transition: width 0.1s ease;
+    }
+
+    @media screen and (max-width: 768px) {
+
+      {% if mobile_layout == 'carousel' %}
+
+        /* CAROUSEL MODE */
+        .hero-overlay-section-{{ section.id }} .overlay-blocks-wrapper {
+          flex-wrap: nowrap;
+          overflow-x: scroll;
+          overflow-y: visible;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          margin-top: -{{ section.settings.overlay_margin_top | divided_by: 2 }}px;
+          padding: 0 20px 16px;
+          gap: 12px;
+          justify-content: flex-start;
+        }
+
+        .hero-overlay-section-{{ section.id }} .overlay-blocks-wrapper::-webkit-scrollbar {
+          display: none;
+        }
+
+        .hero-overlay-section-{{ section.id }} .overlay-block {
+          flex: 0 0 75vw;
+          max-width: 300px;
+          scroll-snap-align: start;
+        }
+
+
+        .hero-overlay-section-{{ section.id }} .scroll-bar-wrapper {
+          display: block;
+        }
+
+      {% else %}
+
+        /* GRID MODE */
+        .hero-overlay-section-{{ section.id }} .overlay-blocks-wrapper {
+          flex-wrap: wrap;
+          margin-top: -{{ section.settings.overlay_margin_top | divided_by: 2 }}px;
+          padding: 0 12px 30px;
+        }
+
+        .hero-overlay-section-{{ section.id }} .overlay-block {
+          flex: 0 0 calc(50% - 8px);
+        }
+
+      {% endif %}
+    }
+
+    @media screen and (max-width: 480px) {
+      {% if mobile_layout != 'carousel' %}
+        .hero-overlay-section-{{ section.id }} .overlay-block {
+          flex: 0 0 100%;
+        }
+      {% endif %}
+
+      .hero-overlay-section-{{ section.id }} .hero-text-overlay {
+        padding: 20px 16px;
+      }
+    }
+</style>
+
+<section class="hero-overlay-section-{{ section.id }}">
+  <!-- ── HERO IMAGE ── -->
+  <div class="hero-image-wrapper">
+    {% if section.settings.hero_image != blank %}
+      {% assign hero_img_alt = section.settings.hero_image.alt | escape %}
+      {% assign hero_img_url = section.settings.hero_image | image_url: width: 2000 %}
+      {{ hero_img_url | image_tag: loading: 'eager', alt: hero_img_alt }}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+
+    <!-- ── HERO RICH TEXT OVERLAY ── -->
+    {% if section.settings.hero_text != blank %}
+      <div class="hero-text-overlay">
+        <div class="hero-text-inner">
+          {{ section.settings.hero_text }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- ── OVERLAY BLOCKS ── -->
+  {% if section.blocks.size > 0 %}
+    <div
+      class="overlay-blocks-wrapper"
+      id="carousel-{{ section.id }}"
+    >
+      {% for block in section.blocks limit: block_count %}
+        {% assign target = '_self' %}
+        {% if block.settings.overlay_link_new_tab %}
+          {% assign target = '_blank' %}
+        {% endif %}
+
+        {% if block.settings.overlay_link != blank %}
+          class="overlay-block overlay-block-{{ block.id }}" href="{{ block.settings.overlay_link }}" target="
+          {{- target -}}
+          "
+          {% if target == '_blank' %}rel="noopener noreferrer"{% endif %}
+          {{ block.shopify_attributes }}
+          >
+        {% else %}
+          <div class="overlay-block overlay-block-{{ block.id }}" {{ block.shopify_attributes }}>
+        {% endif %}
+
+        <!-- Block Image -->
+        <div class="block-image-wrapper">
+          {% if block.settings.overlay_image != blank %}
+            {% assign block_img_alt = block.settings.overlay_image.alt | escape %}
+            {% assign block_img_fit = block.settings.overlay_image_fit %}
+            {% assign block_img_style = 'object-fit: ' | append: block_img_fit %}
+            {% assign block_img_url = block.settings.overlay_image | image_url: width: 800 %}
+            {{ block_img_url | image_tag: loading: 'lazy', alt: block_img_alt, style: block_img_style }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+
+        <!-- Block Rich Text -->
+        {% if block.settings.overlay_text != blank %}
+          <div class="block-text">
+            {{ block.settings.overlay_text }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.overlay_link != blank %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if mobile_layout == 'carousel' %}
+      <div class="scroll-bar-wrapper" id="scrollbar-{{ section.id }}" aria-hidden="true">
+        <div class="scroll-bar-track">
+          <div class="scroll-bar-thumb" id="scrollbar-thumb-{{ section.id }}"></div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Hero Overlay blocks",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "select",
+      "id": "hero_height_desktop",
+      "label": "Hero Image Height — Desktop",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "hero_height_mobile",
+      "label": "Hero Image Height — Mobile",
+      "options": [
+        { "value": "small",  "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "hero_image_fit",
+      "label": "Hero Image Fit",
+      "options": [
+        { "value": "cover",   "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "fill",    "label": "Fill" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_text",
+      "label": "Hero Rich Text"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Hero Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "hero_text_position",
+      "label": "Hero Text Position",
+      "options": [
+        { "value": "center",       "label": "Center" },
+        { "value": "center-left",  "label": "Center Left" },
+        { "value": "center-right", "label": "Center Right" },
+        { "value": "center-top",   "label": "Center Top" },
+        { "value": "top-left",     "label": "Top Left" },
+        { "value": "top-right",    "label": "Top Right" }
+      ],
+      "default": "center-top"
+    },
+    {
+      "type": "range",
+      "id": "overlay_margin_top",
+      "label": "Overlay Blocks Margin Top (px)",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "overlay_block_count",
+      "label": "Number of Overlay Blocks",
+      "options": [
+        { "value": "3", "label": "3 Blocks" },
+        { "value": "4", "label": "4 Blocks" },
+        { "value": "5", "label": "5 Blocks" }
+      ],
+      "default": "5"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout",
+      "options": [
+        { "value": "carousel", "label": "Carousel(1 by 1 swipe)" },
+        { "value": "grid",     "label": "Stacked Grid" }
+      ],
+      "default": "grid",
+      "info": "This setting only affects mobile screens"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_block",
+      "name": "Overlay Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "overlay_image",
+          "label": "Block Image"
+        },
+        {
+          "type": "select",
+          "id": "overlay_image_fit",
+          "label": "Image Fit",
+          "options": [
+            { "value": "cover",   "label": "Cover" },
+            { "value": "contain", "label": "Contain" }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "url",
+          "id": "overlay_link",
+          "label": "Link URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "overlay_link_new_tab",
+          "label": "Open Link in New Tab"
+        },
+        {
+          "type": "richtext",
+          "id": "overlay_text",
+          "label": "Overlay Text"
+        },
+        {
+          "type": "color",
+          "id": "overlay_text_color",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "overlay_text_hover_color",
+          "label": "Text Hover Color",
+          "default": "#FF0000"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Hero Overlay blocks",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
