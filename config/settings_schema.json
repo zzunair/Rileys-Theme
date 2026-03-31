@@ -2475,12 +2475,7 @@
         "id": "global_email",
         "label": "Email",
       },
-      {
-        "type": "text",
-        "id": "partstream_app_key",
-        "label": "PartStream App Key",
-        "info": "Enter your PartStream App Key"
-      }
+      
     ]
   }
 ]
