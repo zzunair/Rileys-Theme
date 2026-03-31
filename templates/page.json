@@ -19,7 +19,7 @@
             "text": "<h1>{{ closest.page.title }}</h1>",
             "width": "100%",
             "max_width": "normal",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h2",
             "font": "var(--font-primary--family)",
             "font_size": "",
@@ -37,16 +37,10 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "heading"
       ],
       "settings": {
         "content_direction": "column",
