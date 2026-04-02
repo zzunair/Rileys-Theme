@@ -1,5 +1,14 @@
 {%- liquid
   assign s = block.settings
+  
+  # Check if user wants to use Global Data or Override it
+  if s.use_global_data
+    assign phone_to_display = settings.global_phone_number
+    assign address_to_display = settings.global_address
+  else
+    assign phone_to_display = s.global_phone_number
+    assign address_to_display = s.global_address
+  endif
 -%}
 
 <div
@@ -8,50 +17,35 @@
     --hc-gap: {{ s.gap }}px;
     --hc-text-color: {{ s.text_color }};
     --hc-text-size: {{ s.text_size }}px;
-
     --hc-icon-size: {{ s.icon_size }}px;
-
     --hc-btn-text: {{ s.button_text_color }};
     --hc-btn-bg: {{ s.button_bg_color }};
     --hc-btn-border: {{ s.button_border_color }};
     --hc-btn-radius: {{ s.button_radius }}px;
-
     --hc-max-width: {{ s.max_width }}px;
     --hc-flex: {% if s.allow_grow %}1 1 auto{% else %}0 0 auto{% endif %};
   "
   {{ block.shopify_attributes }}
 >
-  {% if s.phone != blank %}
+  {% if phone_to_display != blank %}
     <span class="hc-item">
       {% if s.phone_icon != blank %}
         <span class="hc-icon">
-          <img
-            src="{{ s.phone_icon | image_url: width: 48 }}"
-            alt=""
-            width="{{ s.icon_size }}"
-            height="{{ s.icon_size }}"
-            loading="lazy"
-          >
+          <img src="{{ s.phone_icon | image_url: width: 48 }}" alt="" width="{{ s.icon_size }}" height="{{ s.icon_size }}" loading="lazy">
         </span>
       {% endif %}
-      <a class="hc-text hc-link" href="tel:{{ s.phone | remove: ' ' }}">{{ s.phone }}</a>
+      <a class="hc-text hc-link" href="tel:{{ phone_to_display | remove: ' ' }}">{{ phone_to_display }}</a>
     </span>
   {% endif %}
 
-  {% if s.address != blank %}
+  {% if address_to_display != blank %}
     <span class="hc-item">
       {% if s.address_icon != blank %}
         <span class="hc-icon">
-          <img
-            src="{{ s.address_icon | image_url: width: 48 }}"
-            alt=""
-            width="{{ s.icon_size }}"
-            height="{{ s.icon_size }}"
-            loading="lazy"
-          >
+          <img src="{{ s.address_icon | image_url: width: 48 }}" alt="" width="{{ s.icon_size }}" height="{{ s.icon_size }}" loading="lazy">
         </span>
       {% endif %}
-      <span class="hc-text">{{ s.address }}</span>
+      <span class="hc-text">{{ address_to_display }}</span>
     </span>
   {% endif %}
 
@@ -59,13 +53,7 @@
     <a class="hc-btn" href="{{ s.button_link | default: '#' }}">
       {% if s.button_icon != blank %}
         <span class="hc-icon">
-          <img
-            src="{{ s.button_icon | image_url: width: 48 }}"
-            alt=""
-            width="{{ s.icon_size }}"
-            height="{{ s.icon_size }}"
-            loading="lazy"
-          >
+          <img src="{{ s.button_icon | image_url: width: 48 }}" alt="" width="{{ s.icon_size }}" height="{{ s.icon_size }}" loading="lazy">
         </span>
       {% endif %}
       {{ s.button_label }}
@@ -74,91 +62,22 @@
 </div>
 
 {% stylesheet %}
-span.menu-list__link-title {
-    padding: 0px 10px;
-}
  .header-contact-inline {
     display: inline-flex;
     align-items: center;
     gap: var(--hc-gap);
     white-space: nowrap;
     flex: var(--hc-flex, 0 0 auto);
-    max-width: 200px !important;
+    max-width: var(--hc-max-width);
     overflow: hidden;
-    min-width: 1200px;
-    margin-left: 0; /* reset for mobile/tablet */
 }
-
-/* Desktop only */
-@media screen and (min-width: 990px) {
-  .header-contact-inline {
-    margin-left: 80px;
-  }
-}
-
-  .hc-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-  }
-
-  .hc-icon {
-    width: var(--hc-icon-size);
-    height: var(--hc-icon-size);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-  }
-
-  .hc-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  .hc-text {
-    color: var(--hc-text-color);
-    font-size: var(--hc-text-size);
-    line-height: 1.2;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .hc-link {
-    color: var(--hc-text-color);
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .hc-link:hover {
-    text-decoration: underline;
-  }
-
-  .hc-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: var(--hc-btn-radius);
-    border: 1px solid var(--hc-btn-border);
-    background: var(--hc-btn-bg);
-    color: var(--hc-btn-text);
-    text-decoration: none;
-    font-weight: 600;
-    flex: 0 0 auto;
-  }
-
-  /* Hide contact on mobile */
-  @media screen and (max-width: 749px) {
-  .header-contact,
-  .header-contact-inline {
-    display: none !important;
-  }
-}
+.hc-item { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.hc-icon { width: var(--hc-icon-size); height: var(--hc-icon-size); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.hc-icon img { width: 100%; height: 100%; object-fit: contain; }
+.hc-text { color: var(--hc-text-color); font-size: var(--hc-text-size); line-height: 1.2; overflow: hidden; text-overflow: ellipsis; }
+.hc-link { color: var(--hc-text-color); text-decoration: none; font-weight: 600; }
+.hc-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--hc-btn-radius); border: 1px solid var(--hc-btn-border); background: var(--hc-btn-bg); color: var(--hc-btn-text); text-decoration: none; font-weight: 600; }
+@media screen and (max-width: 749px) { .header-contact-inline { display: none !important; } }
 {% endstylesheet %}
 
 {% schema %}
@@ -166,17 +85,27 @@ span.menu-list__link-title {
   "name": "Header contact",
   "class": "header-contact",
   "settings": [
-    { "type": "text", "id": "phone", "label": "Phone number", "default": "+1 (555) 123-4567" },
-    { "type": "text", "id": "address", "label": "Address", "default": "123 Dummy Street, Dummy City" },
+    {
+      "type": "checkbox",
+      "id": "use_global_data",
+      "label": "Use Global Data Settings",
+      "default": true,
+      "info": "Uncheck this to use the custom 'Re-edit' fields below."
+    },
+    { "type": "header", "content": "Re-edit Custom Data" },
+    { "type": "text", "id": "global_phone_number", "label": "Custom Phone Number" },
+    { "type": "text", "id": "global_address", "label": "Custom Address" },
 
+    { "type": "header", "content": "Button" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Map & Hours" },
     { "type": "url", "id": "button_link", "label": "Button link" },
 
+    { "type": "header", "content": "Icons" },
     { "type": "image_picker", "id": "phone_icon", "label": "Phone icon" },
     { "type": "image_picker", "id": "address_icon", "label": "Address icon" },
     { "type": "image_picker", "id": "button_icon", "label": "Button icon" },
 
-    { "type": "header", "content": "Text styles" },
+    { "type": "header", "content": "Styles" },
     { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
     { "type": "range", "id": "text_size", "label": "Text size (px)", "min": 10, "max": 20, "step": 1, "default": 14 },
     { "type": "range", "id": "icon_size", "label": "Icon size (px)", "min": 10, "max": 24, "step": 1, "default": 16 },
@@ -189,8 +118,8 @@ span.menu-list__link-title {
     { "type": "range", "id": "button_radius", "label": "Button radius (px)", "min": 0, "max": 30, "step": 1, "default": 6 },
 
     { "type": "header", "content": "Layout" },
-   { "type": "range", "id": "max_width", "label": "Max width (px)", "min": 120, "max": 1400, "step": 20, "default": 420 },
-    { "type": "checkbox", "id": "allow_grow", "label": "Allow it to grow (take available space)", "default": false }
+    { "type": "range", "id": "max_width", "label": "Max width (px)", "min": 120, "max": 1400, "step": 20, "default": 420 },
+    { "type": "checkbox", "id": "allow_grow", "label": "Allow it to grow", "default": false }
   ]
 }
 {% endschema %}
