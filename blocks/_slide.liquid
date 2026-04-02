@@ -26,10 +26,23 @@
       .shopify-section-{{ section.id }} slideshow-slide {
         min-height: {{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}vw;
       }
+      
     {% endstyle %}
+
+    
   {% endif %}
 
+  {%- assign image_link = block_settings.image_link -%}
+{%- assign link_target = '_self' -%}
+{%- if block_settings.image_link_new_tab -%}
+  {%- assign link_target = '_blank' -%}
+{%- endif -%}
+
+{%- if image_link != blank -%}
+ <a href="{{ image_link }}" target="{{ link_target }}" class="slide__image-container{% if rounded_image_corners %} slide__image-container--rounded{% endif %}">
+{%- else -%}
   <div class="slide__image-container{% if rounded_image_corners %} slide__image-container--rounded{% endif %}">
+{%- endif -%}
     {%- if block_settings.toggle_overlay -%}
       {% render 'overlay', settings: block_settings %}
     {%- endif -%}
@@ -91,19 +104,24 @@
       -%}
       {{ placeholder_name | placeholder_svg_tag: 'slide__image' }}
     {%- endif -%}
+ {%- if image_link != blank -%}
+  </a>
+{%- else -%}
   </div>
+{%- endif -%}
   <div
     class="spacing-style slide__content{% if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}{% if preview_image or block_settings.toggle_overlay %} background-transparent{% endif %}"
     style="{% render 'spacing-style', settings: block_settings %}"
     {{ block.shopify_attributes }}
   >
     <div
-      class="group-block-content
-      layout-panel-flex
-      layout-panel-flex--{{ block_settings.content_direction }}
-      {% if block_settings.vertical_on_mobile %}mobile-column{% endif %}"
-      style="{% render 'layout-panel-style', settings: block_settings %}"
-    >
+  class="group-block-content
+  layout-panel-flex
+  layout-panel-flex--{{ block_settings.content_direction }}
+  {% if block_settings.vertical_on_mobile %}mobile-column{% endif %}
+  {% if block_settings.horizontal_alignment_flex_direction_column != 'center' and block_settings.content_max_width == 'page' %}slide__content-inner--page-width{% endif %}"
+  style="{% render 'layout-panel-style', settings: block_settings %}"
+>
       {% content_for 'blocks' %}
     </div>
   </div>
@@ -160,6 +178,37 @@
   .slide__image-container > .slide__video-poster {
     position: absolute;
   }
+  slideshow-slide > a.slide__image-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.slide__content {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slide__content a,
+.slide__content button,
+.slide__content [role="button"],
+.slide__content input,
+.slide__content select {
+  pointer-events: auto;
+}
+.slide__content-inner--page-width {
+  width: 100%;
+  max-width: var(--page-width, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--page-margin, 24px);
+  box-sizing: border-box;
+}
 {% endstylesheet %}
 
 {% schema %}
@@ -180,7 +229,7 @@
       "type": "group"
     },
     {
-      "type": "image"
+      "type": "profile-block"
     },
     {
       "type": "video"
@@ -227,6 +276,19 @@
       "label": "t:settings.video",
       "visible_if": "{{ block.settings.media_type_1 == 'video' }}"
     },
+
+    {
+  "type": "url",
+  "id": "image_link",
+  "label": "link"
+},
+{
+  "type": "checkbox",
+  "id": "image_link_new_tab",
+  "label": "Open link in new tab",
+  "default": false,
+  "visible_if": "{{ block.settings.image_link != blank }}"
+},
     {
       "type": "header",
       "content": "t:content.layout"
@@ -328,6 +390,25 @@
       "default": "flex-start",
       "visible_if": "{{ block.settings.content_direction != 'row' }}"
     },
+
+    {
+  "type": "select",
+  "id": "content_max_width",
+  "label": "Content width",
+  "options": [
+     {
+      "value": "page",
+      "label": "Page width"
+    },
+    {
+      "value": "full",
+      "label": "Full width"
+    }
+   
+  ],
+  "default": "full",
+  "visible_if": "{{ block.settings.horizontal_alignment_flex_direction_column == 'flex-start' or block.settings.horizontal_alignment_flex_direction_column == 'flex-end' }}"
+},
     {
       "type": "select",
       "id": "vertical_alignment_flex_direction_column",
